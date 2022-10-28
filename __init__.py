@@ -6,7 +6,7 @@ from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from flask_pagedown import PageDown
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:***@myrecipe.c80e6zvozgrv.us-east-1.rds.amazonaws.com/myrecipe_producao'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Ddtanks15+@myrecipe.c80e6zvozgrv.us-east-1.rds.amazonaws.com/myrecipe_producao'
 app.config['SECRET_KEY'] = 'secret'
 
 login_manager = LoginManager(app)
