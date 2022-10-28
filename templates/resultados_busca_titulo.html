@@ -1,0 +1,93 @@
+{% extends "logado.html" %}
+{% block conteudo %}
+{{ pagedown.html_head() }}
+<style>
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+
+  .flex-item:nth-child(1) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+  }
+
+  .scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+
+  .card {
+    display: inline-block;
+  }
+
+  .scrolling-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scrolling-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .resize img {
+    min-width: 330px;
+    min-height: 100px;
+    max-width: 330px;
+    max-height: 320px;
+    width: auto;
+    height: auto;
+    vertical-align: top;
+  }
+
+  .resize {
+    clear: both;
+
+  }
+</style>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul id="messages" class="list-unstyled">
+  {% for message in messages %}
+  <li class="alert alert-success">{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<div class="flex flex-container resize" style="margin-top: 100px;">
+  Você inseriu:<br>
+  <strong>{{titulo}}</strong> 
+  
+</div>
+  {% for receita in receitas %}
+  {% for caminho in paths %}
+  {% if receita.id_receita == caminho.id_receita %}
+  <div class="flex flex-container resize" style="margin-top: 100px;">
+  
+    <div class="card">
+      <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
+        <img class="card-img-top"
+          src="http://127.0.0.1:5000/static/uploads/recipes/{{receita.id_receita}}_{{receita.titulo.replace(' ','')}}/{{caminho.path_imagem}}"
+          alt="Card image cap">
+      </a>
+      <div class="card-body">
+        <h5 class="card-title">{{receita.titulo}}</h5>
+        <p class="card-text"> 
+        </p>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {%endfor%}
+
+  </div>
+
+
+  {% endblock %}

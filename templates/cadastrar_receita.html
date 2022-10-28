@@ -1,0 +1,291 @@
+{% extends "logado.html" %}
+{% block conteudo %}
+<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<style>
+    .flex-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-content: center;
+        align-items: stretch;
+    }
+
+    .flex-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .flex-column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .flex-item {
+        padding-left: 20%;
+        padding-right: 20%;
+        flex: auto;
+        align-self: auto;
+    }
+</style>
+
+
+
+<div class="flex flex-item">
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <ul id="messages" class="list-unstyled">
+    {% for message in messages %}
+        <li class="alert alert-success">{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
+</div>
+<div class="flex-container">
+
+    <div class="flex-item">
+        <h5 class="flw-row gap-5" style="color:rgb(83, 83, 83)">Cadastro de Receitas</h5><br>
+        <form class="flex-column gap-2" action="{{url_for('cadastrar_receita')}}" enctype="multipart/form-data"
+            method="post">
+            <div class="flex-row gap-2">
+
+                <label style="width: 60%;" for="autoSizingInput">Titulo:
+                    <input type="text" class="form-control" name="titulo" id="autoSizingInput" placeholder="Meu titulo"
+                        required>
+                </label>
+
+                <label style="width: 40%;" for="autoSizingInput">Foto:
+                    <input type="file" accept=".jpg,.png,.jpeg,.jfif" class="form-control" name="foto"
+                        id="autoSizingInput" required>
+                </label>
+
+
+
+
+            </div>
+            
+            
+            <div class="flex-row gap-4" style="background-color:rgb(255, 255, 255) ;color:rgb(109, 109, 109)">
+
+                
+                <div class="flex-row gap-2">
+                    <label for="autoSizingCheck1">
+                        <input name="vegetariana" type="checkbox" id="autoSizingCheck1">
+                        Vegetariana</label>
+                    <label for="autoSizingCheck2">
+                        <input name="vegana" type="checkbox" id="autoSizingCheck2">
+                        Vegana</label>
+                    <label for="autoSizingCheck3">
+                        <input name="semgluten" type="checkbox" id="autoSizingCheck3">
+                        Sem glúten</label>
+                    <label for="autoSizingCheck4">
+                        <input name="semlactose" type="checkbox" id="autoSizingCheck4">
+                        Sem lactose</label>
+                    <label for="autoSizingCheck5">
+                        <input name="saudavel" type="checkbox" id="autoSizingCheck5">
+                        Saudável</label>
+                </div>
+                
+
+            </div>
+            <div class="flex-row gap-2">
+                <label style="width: 30%;" for="autoSizingInput">Serve quantas pessoas:
+                    <input type="number" class="form-control" name="porcoes" id="autoSizingInput"
+                        placeholder="5 pessoas" required>
+                </label>
+
+                <label style="width: 30%;" for="autoSizingInput">Tempo de Preparo:
+                    <input type="number" class="form-control" name="tempo" id="autoSizingInput" placeholder="45 minutos"
+                        required>
+                </label>
+
+                <label style="width: 40%;" for="autoSizingSelect">Tipo refeição:
+                    <select class="form-select" name="tiporefeicao" id="autoSizingSelect" required>
+                        <option value="1">Café da manhã</option>
+                        <option value="2">Almoço</option>
+                        <option value="3">Café da tarde</option>
+                        <option value="4">Jantar</option>
+                        <option value="5">Sobremesa</option>
+                    </select>
+                </label>
+            </div>
+
+            
+                <div id="formulario">
+                    <div class="form-group" id="campo0"> 
+                       
+                        
+                        <div class="flex-row gap-2 ">
+
+                            <label style="width: 20%;" for="autoSizingInput">Quantidade:
+                                <input type="number" class="form-control" name="quantidade0" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>
+                            </label>
+                            
+                            <label style="width: 30%;" for="autoSizingInput">Unidade de medida:
+                                <select class="form-select" name="unidademedida0" id="autoSizingInput" required>
+                                    <option value="1">A gosto</option>
+                                    <option value="2">Colher de sopa</option>
+                                    <option value="3">Gramas</option>
+                                    <option value="4">Kg</option>
+                                    <option value="5">Litro(s)</option>
+                                    <option value="6">Ml</option>
+                                    <option value="7">Unidade</option>
+                                    <option value="8">Xícara(s)</option>
+                                    <option value="9">Outros</option>
+                                </select>
+                            </label>
+                            <label style="width: 45%;" for="autoSizingInput">Ingrediente:
+                                <input type="text" class="form-control" name="ingrediente0" id="autoSizingInput" placeholder="Ingrediente" required>
+                            </label>
+
+                            <label style="width: 5%;" for="autoSizingInput">Adicionar
+                                <button class="btn btn-light" type="button" onclick="addcampo()" id="add-campo"> + </button>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            
+                
+                
+                <script>
+                    var cont = 20;
+                    function addcampo(){
+                        cont++;
+                        $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
+                            <div class="flex-row gap-2 ">\
+                                <label style="width: 20%;" for="autoSizingInput">Quantidade:\
+                                    <input type="number" class="form-control" name="quantidade'+ cont +'" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
+                                </label>\
+                                <label style="width: 30%;" for="autoSizingInput">Unidade de medida:\
+                                <select class="form-select" name="unidademedida'+ cont +'" id="autoSizingInput" required>\
+                                    <option value="1">A gosto</option>\
+                                    <option value="2">Colher de sopa</option>\
+                                    <option value="3">Gramas</option>\
+                                    <option value="4">Kg</option>\
+                                    <option value="5">Litro(s)</option>\
+                                    <option value="6">Ml</option>\
+                                    <option value="7">Unidade</option>\
+                                    <option value="8">Xícara(s)</option>\
+                                    <option value="9">Outros</option>\
+                                </select>\
+                                </label>\
+                                <label style="width: 35%;" for="autoSizingInput">Ingrediente:\
+                                    <input type="text" class="form-control" name="ingrediente'+ cont +'" id="autoSizingInput" placeholder="Ingrediente" required>\
+                                </label>\
+                                <label style="width: 7%;" for="autoSizingInput">Adicionar\
+                                <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont +'"> + </button>\
+                                </label>\
+                                <label style="width: 7%;" for="autoSizingInput">Remover\
+                                <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
+                                </lable>\
+                            </div></div>');
+                    
+                    };
+                    
+                    //https://api.jquery.com/click/
+                   
+                    $('form').on('click', '.btn-apagar', function () {
+                        var button_id = $(this).attr("id");
+                        $('#campo' + button_id + '').remove();
+                    });
+                    $('form').on('click', '.btn-add', function () {
+                        cont++;
+                        var button_id = $(this).attr("id");
+                        $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
+                            <div class="flex-row gap-2 ">\
+                                <label style="width: 20%;" for="autoSizingInput">Quantidade:\
+                                    <input type="number" class="form-control" name="quantidade'+ cont +'" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
+                                </label>\
+                                <label style="width: 30%;" for="autoSizingInput">Unidade de medida:\
+                                <select class="form-select" name="unidademedida'+ cont +'" id="autoSizingInput" required>\
+                                    <option value="1">A gosto</option>\
+                                    <option value="2">Colher de sopa</option>\
+                                    <option value="3">Gramas</option>\
+                                    <option value="4">Kg</option>\
+                                    <option value="5">Litro(s)</option>\
+                                    <option value="6">Ml</option>\
+                                    <option value="7">Unidade</option>\
+                                    <option value="8">Xícara(s)</option>\
+                                    <option value="9">Outros</option>\
+                                </select>\
+                                </label>\
+                                <label style="width: 35%;" for="autoSizingInput">Ingrediente:\
+                                    <input type="text" class="form-control" name="ingrediente'+ cont +'" id="autoSizingInput" placeholder="Ingrediente" required>\
+                                </label>\
+                                <label style="width: 7%;" for="autoSizingInput">Adicionar\
+                                <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont +'"> + </button>\
+                                </label>\
+                                <label style="width: 7%;" for="autoSizingInput">Remover\
+                                <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
+                                </lable>\
+                            </div></div>');
+                    });
+                </script>
+            </body>
+            
+            
+            
+            <div class="flex-row gap-2">
+            
+            <body>
+
+                <label style="width: 100%;">Modo de preparo (obrigatório)
+                    <textarea required id="summernote" name="editordata"></textarea>
+                </label>
+
+
+                <script>
+                    $(document).ready(function () {
+                        $('#summernote').summernote();
+                    });
+                </script>
+                <script>
+                    $('#summernote').summernote({
+                        placeholder: "Instruções da Receita",
+                        tabsize: 2,
+                        height: 120,
+                        toolbar: [
+                            ['style', ['style']],
+                            ['font', ['bold', 'underline', 'clear']],
+                            ['color', ['color']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['table', ['table']],
+                            
+                        ]
+                    });
+                </script>
+            </body>
+        </div>
+
+
+
+            <div>
+                <div>
+                    <input name="privada" type="checkbox" id="autoSizingCheck">
+                    <label for="autoSizingCheck">
+                        Manter privado
+                    </label>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

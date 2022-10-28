@@ -1,0 +1,83 @@
+        {% extends "template_welcome.html" %}
+        {% block conteudo %}
+
+        <h1>Bem Vindo(a)! {{ current_user.nome }}</h1>
+        <p>
+          Esta é sua pagina de Movimentos!
+        </p>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+        $(document).ready(function(){
+          $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+        </script>
+        <style>
+          table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
+          
+          td, th {
+            border: 1px solid #ffffff00;
+            text-align: left;
+            padding: 8px;
+          }
+          
+          tr:nth-child(even) {
+            background-color: #69a6c43a;
+          }
+          </style>
+        <body>
+        <input id="myInput" type="text" placeholder="Search..">
+        <br><br>
+        
+        <table>
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Saldo</th>
+            <th scope="col">Unidade de Medida</th>
+            <th scope="col">Quantidade Minima</th>
+            <th scope="col">Quantidade Maxima</th>
+            <th scope="col">Quantidade Ideal</th>
+            <th scope="col">Categoria</th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+            {% for produto in produtos %}
+              {% if produto.ong_id == current_user.ong_id %}
+               <tr>
+                  <td>{{ produto.nome }}</td>
+                  {% for estoque in estoques %}
+                        {% if estoque.produto_id == produto.id %}
+                            <td>{{ estoque.saldo }}</td>
+                        {% endif %}
+                  {% endfor %}
+                  <td>{{ produto.unidade_medida }}</td>
+                  <td>{{ produto.quantidade_minima }}</td>
+                  <td>{{ produto.quantidade_maxima }}</td>
+                  <td>{{ produto.quantidade_ideal }}</td>
+
+                   {% for categoria in categorias %}
+                        {% if produto.categoria_id == categoria.id %}
+                            <td>{{ categoria.nome }}</td>
+                        {% endif %}
+                   {% endfor %}
+
+                  <td><a href="{{ url_for('entrada_produto', id=produto.id) }}">Entrada</a> </td>
+                  <td><a href="{{ url_for('saida_produto', id=produto.id) }}">Saída</a> </td>
+                  <td><a href="{{ url_for('auditoria', id=produto.id) }}">Auditoria</a> </td>
+               </tr>
+              {% endif %}
+            {% endfor %}
+        </tbody>
+      </table>
+    </body>
+        
+    {% endblock %}

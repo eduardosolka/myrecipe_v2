@@ -1,0 +1,53 @@
+{% extends "logado.html" %}
+{% block conteudo %}
+<style>
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: stretch;
+    }
+
+.flex-item:nth-child(1) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    }
+
+
+  /* .circle {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    overflow: hidden;
+  }
+
+  
+  .circle img{
+  margin: 0 auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 1px solid gray;
+  display: inline-block;
+  padding: 3px;
+  border: 3px solid #d2d6de;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-left: 5px;} */
+  
+
+</style>
+
+
+<div style="display:flex; flex-direction:row; justify-content:center;">
+  
+  <div class="circle flex-item" style="display:flex; flex-direction:column;">
+    <img style="max-height: 150px; border-radius: 50%;border: 1px solid gray; margin-bottom: 5px;" src="static/uploads/users/{{current_user.id}}/{{usuario.foto}}" alt="Card">
+    <span style="text-align:center">{{usuario.nome}}</span>
+  </div>
+  
+</div>
+{% endblock %}

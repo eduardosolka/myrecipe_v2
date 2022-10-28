@@ -1,0 +1,161 @@
+{% extends "logado.html" %}
+{% block conteudo %}
+{{ pagedown.html_head() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stars.css') }}">
+<style>
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+  }
+
+  .flex-item:nth-child(1) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: flex-start;
+  }
+
+  .scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+
+  .card {
+    display: inline-block;
+  }
+
+  .scrolling-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scrolling-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+</style>
+{% for receita_salva in receitas_salvas %}
+{% for caminho in paths %}
+{% if caminho.id_receita == receita_salva.id_receita%}
+<div class="flex-container">
+  <div class="flex-item gap-2" style="padding: 10px; background-color:rgb(255, 255, 255)">
+    <div class="flex-row gap-2">
+      <div class="stars">
+        <div class="card gap-2" style="padding: 10px; width: 300px">
+          <img class="card-img-top"
+            src="http://127.0.0.1:5000/static/uploads/recipes/{{receita_salva.id_receita}}_{{receita_salva.titulo.replace(' ','')}}/{{caminho.path_imagem}}"
+            alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-text row">{{receita_salva.titulo}}</h5>
+          </div>
+          
+          
+          {% if avaliadas == 0 %}
+          <input class="star star-5" id="nota-5{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="5" />
+          <label class="star star-5" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=5)}}`" for="nota-5{{receita_salva.id_receita}}" value="5"></label>  
+          <input class="star star-4" id="nota-4{{receita_salva.id_receita}}"  type="radio" name="nota{{receita_salva.id_receita}}" value="nota-4" />
+          <label class="star star-4" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=4)}}`"for="nota-4{{receita_salva.id_receita}} "value="4"></label>
+          <input class="star star-3" id="nota-3{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-3" />
+          <label class="star star-3" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=3)}}`"for="nota-3{{receita_salva.id_receita}}" value="3"></label>
+          <input class="star star-2" id="nota-2{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-2" />
+          <label class="star star-2" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=2)}}`"for="nota-2{{receita_salva.id_receita}}"value="2" ></label>
+          <input class="star star-1" id="nota-1{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="1" />
+          <label class="star star-1" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=1)}}`"for="nota-1{{receita_salva.id_receita}}" value="1"></label>
+        </div>
+      </div>
+          {%endif%}
+
+          {% if avaliadas != 0 %}
+          {% if receita_salva.id_receita not in avaliadas|map(attribute="id_receita") %}
+          <input class="star star-5" id="nota-5{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}"  value="5" />
+          <label class="star star-5" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=5)}}`" for="nota-5{{receita_salva.id_receita}}" value="5"></label>  
+          <input class="star star-4" id="nota-4{{receita_salva.id_receita}}"  type="radio" name="nota{{receita_salva.id_receita}}" value="nota-4" />
+          <label class="star star-4" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=4)}}`"for="nota-4{{receita_salva.id_receita}} "value="4"></label>
+          <input class="star star-3" id="nota-3{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-3" />
+          <label class="star star-3" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=3)}}`"for="nota-3{{receita_salva.id_receita}}" value="3"></label>
+          <input class="star star-2" id="nota-2{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-2" />
+          <label class="star star-2" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=2)}}`"for="nota-2{{receita_salva.id_receita}}"value="2" ></label>
+          <input class="star star-1" id="nota-1{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="1" />
+          <label class="star star-1" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=1)}}`"for="nota-1{{receita_salva.id_receita}}" value="1"></label>
+        </div>
+      </div>
+          {% endif %}
+          {% endif %}
+
+
+          {% if avaliadas != 0 %}
+          {%for avaliada in avaliadas%}
+          {% if receita_salva.id_receita == avaliada.id_receita %}
+          {% if avaliada.nota == 5 %} 
+          <input class="star star-5" id="nota-5{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" checked value="5" />
+          <label class="star star-5" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=5)}}`" for="nota-5{{receita_salva.id_receita}}" value="5"></label>  
+          <input class="star star-4" id="nota-4{{receita_salva.id_receita}}"  type="radio" name="nota{{receita_salva.id_receita}}" value="nota-4" />
+          <label class="star star-4" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=4)}}`"for="nota-4{{receita_salva.id_receita}} "value="4"></label>
+          <input class="star star-3" id="nota-3{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-3" />
+          <label class="star star-3" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=3)}}`"for="nota-3{{receita_salva.id_receita}}" value="3"></label>
+          <input class="star star-2" id="nota-2{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-2" />
+          <label class="star star-2" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=2)}}`"for="nota-2{{receita_salva.id_receita}}"value="2" ></label>
+          <input class="star star-1" id="nota-1{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="1" />
+          <label class="star star-1" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=1)}}`"for="nota-1{{receita_salva.id_receita}}" value="1"></label>
+        </div>
+      </div>
+          {% elif avaliada.nota == 4 %}
+          <input class="star star-4" id="nota-4{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" checked value="4" />
+          <label class="star star-4" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=4)}}`"for="nota-4{{receita_salva.id_receita}}" value="4"></label>
+          <input class="star star-3" id="nota-3{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-3" />
+          <label class="star star-3" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=3)}}`"for="nota-3{{receita_salva.id_receita}}" value="3"></label>
+          <input class="star star-2" id="nota-2{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-2" />
+          <label class="star star-2" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=2)}}`"for="nota-2{{receita_salva.id_receita}}" value="2"></label>
+          <input class="star star-1" id="nota-1{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="1" />
+          <label class="star star-1" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=1)}}`"for="nota-1{{receita_salva.id_receita}}" value="1"></label>
+        </div>
+      </div> 
+      {% elif avaliada.nota == 3 %}
+          <input class="star star-3" id="nota-3{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" checked value="nota-3" />
+          <label class="star star-3" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=3)}}`"for="nota-3{{receita_salva.id_receita}}" value="3"></label>
+          <input class="star star-2" id="nota-2{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="nota-2" />
+          <label class="star star-2" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=2)}}`"for="nota-2{{receita_salva.id_receita}}" value="2"></label>
+          <input class="star star-1" id="nota-1{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="1" />
+          <label class="star star-1" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=1)}}`"for="nota-1{{receita_salva.id_receita}}" value="1"></label>
+        </div>
+      </div> 
+      {% elif avaliada.nota == 2 %}
+          <input class="star star-2" id="nota-2{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" checked value="nota-2" />
+          <label class="star star-2" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=2)}}`"for="nota-2{{receita_salva.id_receita}}" value="2"></label>
+          <input class="star star-1" id="nota-1{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" value="1" />
+          <label class="star star-1" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=1)}}`"for="nota-1{{receita_salva.id_receita}}" value="1"></label>
+        </div>
+      </div>
+      {% elif avaliada.nota == 1 %}
+          <input class="star star-1" id="nota-1{{receita_salva.id_receita}}" type="radio" name="nota{{receita_salva.id_receita}}" checked value="1" />
+          <label class="star star-1" onclick="window.location.href=`{{url_for('avaliacoes',id_receita=receita_salva.id_receita,nota=1)}}`"for="nota-1{{receita_salva.id_receita}}" value="1"></label>
+        </div>
+      </div> 
+      
+          {% endif %}            
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+  
+          
+      
+      
+
+   
+  
+
+    </div>
+
+  </div>
+</div>
+
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+
+
+{% endblock %}

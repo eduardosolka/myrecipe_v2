@@ -1,0 +1,312 @@
+{% extends "logado.html" %}
+{% block conteudo %}
+
+<style>
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+  }
+
+  .flex-item:nth-child(1) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: flex-start;
+  }
+
+  .scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+
+  .card {
+    display: inline-block;
+  }
+
+  .scrolling-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scrolling-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .resize img {
+    max-width: 250px;
+    max-height: 120px;
+
+    width: auto;
+    height: auto;
+    vertical-align: top;
+  }
+
+  .resize {
+    clear: both;
+
+  }
+</style>
+<form class="flex-column gap-2" action="{{url_for('buscar_titulo')}}" enctype="multipart/form-data" method="post">
+  <div  
+  style="margin-top: 50px;  display:flex; flex-direction:row; gap:2px; align-content: center; padding-left: 25%; padding-right: 25%;">
+  <h4>Busque por titulo</h4>
+  </div>
+  <div  
+  style="margin-top: 20px;  display:flex; flex-direction:row; gap:2px; align-content: center; padding-left: 25%; padding-right: 25%;">
+  
+  <input type="search" name="titulo" placeholder="Titulo" id="form1" class="form-control" />
+  
+</div>
+<div style="margin-top: 25px; margin-bottom:50px; display:flex; flex-direction:row; gap:2px; align-content: center; padding-left: 25%; padding-right: 25%;">
+<button  type="submit" class="btn btn-primary">Buscar</button>
+</div>
+</form>
+
+<div
+  style="margin-top: 50px; margin-bottom:50px; display:flex; flex-direction:column; gap:2px; align-content: center;padding-left: 25%; padding-right: auto;">
+  <form class="flex-column gap-2" action="{{url_for('buscar_ingredientes')}}" enctype="multipart/form-data" method="post">
+    <div id="formulario">
+      <h4>Busque por ingredientes</h4><br>
+      <div class="form-group" id="campo0">
+          <label style="width: 15%;" for="autoSizingInput">Quantidade:
+            <input type="number" class="form-control" name="quantidade0" id="autoSizingInput" min="0" step="0.01"
+              pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>
+          </label>
+
+          <label style="width: 20%;" for="autoSizingInput">Unidade de medida:
+            <select class="form-select" name="unidademedida0" id="autoSizingInput" required>
+              <option value="1">A gosto</option>
+              <option value="2">Colher de sopa</option>
+              <option value="3">Gramas</option>
+              <option value="4">Kg</option>
+              <option value="5">Litro(s)</option>
+              <option value="6">Ml</option>
+              <option value="7">Unidade</option>
+              <option value="8">Xícara(s)</option>
+              <option value="9">Outros</option>
+            </select>
+          </label>
+          <label style="width: 25%;" for="autoSizingInput">Ingrediente:
+            <input type="text" class="form-control" name="ingrediente0" id="autoSizingInput" placeholder="Ingrediente"
+              required>
+          </label>
+
+          <label style="width: 7%;" for="autoSizingInput">Adicionar
+            <button class="btn btn-light" type="button" onclick="addcampo()" id="add-campo"> + </button>
+          </label>
+        
+      </div>
+    </div>
+    
+    <script>
+      var cont = 1;
+      function addcampo() {
+        cont++;
+        $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
+                  <label style="width: 15%;" for="autoSizingInput">Quantidade:\
+                      <input type="number" class="form-control" name="quantidade'+ cont + '" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
+                  </label>\
+                  <label style="width: 20%;" for="autoSizingInput">Unidade de medida:\
+                  <select class="form-select" name="unidademedida'+ cont + '" id="autoSizingInput" required>\
+                      <option value="1">A gosto</option>\
+                      <option value="2">Colher de sopa</option>\
+                      <option value="3">Gramas</option>\
+                      <option value="4">Kg</option>\
+                      <option value="5">Litro(s)</option>\
+                      <option value="6">Ml</option>\
+                      <option value="7">Unidade</option>\
+                      <option value="8">Xícara(s)</option>\
+                      <option value="9">Outros</option>\
+                  </select>\
+                  </label>\
+                  <label style="width: 25%;" for="autoSizingInput">Ingrediente:\
+                      <input type="text" class="form-control" name="ingrediente'+ cont + '" id="autoSizingInput" placeholder="Ingrediente" required>\
+                  </label>\
+                  <label style="width: 7%;" for="autoSizingInput">Adicionar\
+                  <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont + '"> + </button>\
+                  </label>\
+                  <label style="width: 7%;" for="autoSizingInput">Remover\
+                  <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
+                  </lable>\
+                  </div>');
+
+      };
+
+      //https://api.jquery.com/click/
+
+      $('form').on('click', '.btn-apagar', function () {
+        var button_id = $(this).attr("id");
+        $('#campo' + button_id + '').remove();
+      });
+      $('form').on('click', '.btn-add', function () {
+        cont++;
+        var button_id = $(this).attr("id");
+        $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
+                  <label style="width: 15%;" for="autoSizingInput">Quantidade:\
+                      <input type="number" class="form-control" name="quantidade'+ cont + '" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
+                  </label>\
+                  <label style="width: 20%;" for="autoSizingInput">Unidade de medida:\
+                  <select class="form-select" name="unidademedida'+ cont + '" id="autoSizingInput" required>\
+                      <option value="1">A gosto</option>\
+                      <option value="2">Colher de sopa</option>\
+                      <option value="3">Gramas</option>\
+                      <option value="4">Kg</option>\
+                      <option value="5">Litro(s)</option>\
+                      <option value="6">Ml</option>\
+                      <option value="7">Unidade</option>\
+                      <option value="8">Xícara(s)</option>\
+                      <option value="9">Outros</option>\
+                  </select>\
+                  </label>\
+                  <label style="width: 25%;" for="autoSizingInput">Ingrediente:\
+                      <input type="text" class="form-control" name="ingrediente'+ cont + '" id="autoSizingInput" placeholder="Ingrediente" required>\
+                  </label>\
+                  <label style="width: 7%;" for="autoSizingInput">Adicionar\
+                  <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont + '"> + </button>\
+                  </label>\
+                  <label style="width: 7%;" for="autoSizingInput">Remover\
+                  <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
+                  </lable>\
+                 </div>');
+      });
+    </script>
+
+<div>
+  <button type="submit" class="btn btn-primary">Buscar</button>
+</div>
+
+</form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="flex-direction:column; justify-content: flex-start; margin-top: 100px;">
+  <span>Mais recentes</span>
+  <div class="flex-container gap-2" style=" background-color:rgb(255, 255, 255)">
+
+    <div class="scrolling-wrapper" style="padding:10px; text-align:center">
+      {% for receita in receitas_novas %}
+      {% for caminho in paths %}
+      {% if receita.id_receita == caminho.id_receita %}
+      <div class="resize card flex-item" style=" min-width: 200px;max-width: 250px; ">
+        <div class="flex flex-row">
+          <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
+            <img
+              src="static/uploads/recipes/{{receita.id_receita}}_{{receita.titulo.replace(' ','')}}/{{caminho.path_imagem}}"
+              alt="Card" class="card-img-top">
+          </a>
+        </div>
+        <div class="flex flex-row">
+          <hr style="color:rgb(254, 244, 227)">
+        </div>
+        <div class="flex flex-row">
+          <h5>{{receita.titulo}}</h5>
+        </div>
+      </div>
+
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+
+<div style="flex-direction:column; justify-content: flex-start; margin-top: 100px;">
+  <span>Mais salvas</span>
+  <div class="scrolling-wrapper" style="padding:10px; text-align:center">
+    {% for receita_salva in receitas_salvas %}
+    {% for caminho in paths %}
+    {% if receita_salva.id_receita == caminho.id_receita %}
+    <div class="resize card flex-item" style=" min-width: 200px;max-width: 250px; ">
+      <div class="flex flex-row">
+        <a href="{{ url_for('mostrar_receita',id_receita=receita_salva.id_receita) }}">
+          <img
+            src="static/uploads/recipes/{{receita_salva.id_receita}}_{{receita_salva.titulo.replace(' ','')}}/{{caminho.path_imagem}}"
+            alt="Card">
+        </a>
+      </div>
+      <div class="flex flex-row">
+        <hr style="color:rgb(254, 244, 227)">
+      </div>
+      <div class="flex flex-row">
+        <h5>{{receita_salva.titulo}}</h5>
+      </div>
+    </div>
+
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+
+
+  </div>
+</div>
+
+
+
+<div style="flex-direction:column; justify-content: flex-start; margin-top: 100px;">
+  <span>Melhores avaliadas</span>
+  <div class="scrolling-wrapper" style="padding:10px; text-align:center">
+    {% for receita in maiores_avaliacoes %}
+    {% for caminho in paths %}
+    {% if receita.id_receita == caminho.id_receita %}
+    <div class="resize card flex-item" style=" min-width: 200px;max-width: 250px; ">
+      <div class="flex flex-row">
+        <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
+          <img
+            src="static/uploads/recipes/{{receita.id_receita}}_{{receita.titulo.replace(' ','')}}/{{caminho.path_imagem}}"
+            alt="Card">
+        </a>
+      </div>
+      <div class="flex flex-row">
+        <hr style="color:rgb(254, 244, 227)">
+      </div>
+      <div class="flex flex-row">
+        <h5>{{receita.titulo}}</h5>
+      </div>
+    </div>
+
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+
+  </div>
+</div>
+</div>
+
+
+{% endblock %}

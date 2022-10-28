@@ -1,0 +1,57 @@
+documentação da IA
+
+quando chama a def recomendacao precisa passar um id_receita (a que está sendo mostrada)
+
+em seguida ela atribui o id da receita da tela para a variavel id_receita_amostra, que será guardada para comparar com as demais receitas
+
+é criado um dataframe com a seguinte estrutura: ID_RECEITA, TITULO, INGREDIENTE, QUANTIDADE, UNIDADE_MEDIDA,PESO,PERCENTUAL_RECOMENDACAO
+
+é setada a configuração de que os floats do dataframe terão 2 casas decimais
+
+após isso, é feito uma consulta dos ingredientes que estão vinculados à receita de amostra, para cada um destes ingredientes, vamos consultar as receitas que são diferentes da amostra.
+
+agora para cada ingrediente das receitas diferentes da amostra, ex: AMOSTRA = OVO FRITO {INGREDIENTES:[OVO,AZEITE]} para cada um deles, será levantado todos os ingredientes das receitas que não o ovo frito.
+
+Para que seja uma comparação fiel, primeiro comparamos as unidades de medida, se forem iguais, podemos buscar um peso, se não, não entra no cálculo, para que não tenha casos de comparação de litro com kg, kg com colheres, etc.
+
+agora que temos um ingrediente de amostra com a mesma medida, vamos comparar ele com cada ingrediente das outras receitas e atribuir um peso por algoritmo de levenshtein, que retorna um peso de 0 a 1.
+
+assim, o percentual de recomendação começa a ser montado, com o resultado da comparação das duas strings retornando de 0 a 1, fazemos a divisão da quantidade do ingrediente da amostra pela quantidade de ingredientes da comparada, vezes o peso de 0 a 1, ou seja, se na receita amostra, tem 4 ovos e na receita comparada tem 8, teremos 0,5 * 1 (que é a igualdade da string 'ovo'), ou seja, multiplicando por 100 para ter a porcentagem, teremos 50% dos ingredientes necessários na amostra em relação à comparada, caso em uma estivesse 1 farinha e na outra estivesse 1 farimha (com erro de digitação), o algoritmo de levenshtein retornaria peso 0.7, e após a divisão das quantidades, ainda teríamos 70% de recomendação, mesmo com o erro de caractere, estes pesos são adicionados num arquivo pesos.txt para conferencia do desenvolvedor.
+
+estes dados são adicionados no dataframe para calculos posteriores.
+
+neste momento do código, é salvo um arquivo csv para conferencia do desenvolvedor, nomeado de tabela_recomendacoes_por_ingrediente.csv.
+
+esta tabela agora passará pelo calculo final, neste exemplo da receita OVO FRITO {INGREDIENTES:[1 OVO (UN),20 AZEITE (ML)]} comparando com OMELETE {INGREDIENTES: [2 OVOS (UN), 20 AZEITE (ML)]} teríamos um dataframe neste modelo:
+
+id_receita	titulo	  ingrediente	quantidade   unidade_medida	peso	percentual_recomendacao
+62	        omelete	  ovos	        2.0	      7	                0.7	0.35
+62	        omelete	  azeite	20.0	      6	                1.0	1.0
+
+
+
+agora, neste dataframe é aplicado os ultimos calculos para criar o percentual total por id_receita
+
+é feito um agrupamento do id_receita, somando os percentuais (percentual_recomendacao), contando quantos registros tiveram naquele id, e mantendo o titulo(max)
+
+agora é criada uma nova coluna chamada percentual total, que recebe a soma dos percentuais, dividido por quantas vezes o registro apareceu no dataframe, ou seja, neste exemplo, a coluna recebeu o valor 0,675, que representará posteriormente 67,5% de relevância de uma para outra.
+
+
+Algoritmo de Levenshtein: def levenshteinDistanceDP, recebe duas strings, este algorítmo é responsável por calcular a distância entre duas strings, comparando posição por posição a igualdade das letras e adicionando em uma matriz, o ultimo elemento da matriz é a distância total entre as duas strings, foi adicionado ao fim deste algorítmo de distância, uma normalização de pesos, variando de 0 a 1, para distâncias = 0 (strings iguais) o peso recebe 1, ou seja, 100% de similaridade, para distâncias iguais a 1, peso recebe 0.7 (70%), para distancia 2, peso recebe 0.5, para maiores que 2, peso recebe 0.1, já levando em consideração os tamanhos das strings.
+
+é importante salientar que todas as recomendações feitas são ordenadas pelo percentual de relevância, no caso do My Recipe, do quanto uma receita A está contida numa receita N.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

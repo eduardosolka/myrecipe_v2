@@ -1,0 +1,18 @@
+{% extends "logado.html" %}
+{% block conteudo %}
+
+
+
+{% for receita in recomendacoes.receita%}
+    {% for recomendacao in recomendacoes.percentual_total%}
+    <h5>{{receita}}</h5>
+    <h5>{{recomendacao}}</h5>
+{%endfor%}
+{%endfor%}
+
+
+
+
+
+
+{% endblock %}

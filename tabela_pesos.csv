@@ -1,0 +1,5 @@
+id_receita;titulo;ingrediente;quantidade;peso
+52;Arroz doce;teste;7;0.5
+75;Ovo Frito;teste;2;0.01
+52;Arroz doce;tes;7;0.04
+75;Ovo Frito;tes;2;0.02
