@@ -565,6 +565,7 @@ def buscar_ingredientes():
 @app.route('/buscar_titulo', methods=['GET', 'POST'])
 @login_required
 def buscar_titulo():
+    print("teste")
     if request.method == 'POST':
         titulo = request.form['titulo']
         receitas = db.session.execute(f'''SELECT * FROM myrecipe_producao.tb_receita
