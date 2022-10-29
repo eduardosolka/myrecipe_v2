@@ -32,7 +32,7 @@ def cadastrar_usuario():
         for id_novo in maior_id:
             id_novo = id_novo[0]
         foto = request.files['foto']  
-        diretorio = r"C:/Users/Eduardo/Documents/Python Scripts/ProjetoTecnologico/static/uploads/users/"+str(id_novo)
+        diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/users/"+str(id_novo)
         os.makedirs(diretorio)       
         foto.save(os.path.join(diretorio, foto.filename))       
         user = Usuario.query.filter_by(email=email).first()
@@ -146,7 +146,7 @@ def cadastrar_receita():
                     arq2.write(str(quantidade)+"\n"+str(ingrediente)+"\n"+str(unidademedida))
 
         
-        diretorio = r"C:/Users/Eduardo/Documents/Python Scripts/ProjetoTecnologico/static/uploads/recipes/"+str(id_novo)+'_'+titulo.replace(' ','')
+        diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/recipes/"+str(id_novo)+'_'+titulo.replace(' ','')
 
         os.makedirs(diretorio)
         foto = request.files['foto']
@@ -476,7 +476,7 @@ def editar_receita(id_receita):
             
 
             
-            diretorio = r"C:/Users/Eduardo/Documents/Python Scripts/ProjetoTecnologico/static/uploads/recipes/"+str(id_novo)+'_'+titulo.replace(' ','')
+            diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/recipes/"+str(id_novo)+'_'+titulo.replace(' ','')
 
             os.makedirs(diretorio)
             foto = request.files['foto']

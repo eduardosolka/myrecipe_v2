@@ -174,4 +174,18 @@ teste
 OVO
 71.0
 sal
+11
+ovo
+71
+leite
+51
+arroz
+81
+leite condensado
+71
+creme de leite
+72
+agua
+81
+canela
 1
