@@ -70,7 +70,7 @@ def homepage():
             group by ta.id_receita order by media_nota desc limit 20;''')
     paths = PathImagem.query.all()
     for path in paths:
-        path.path_imagem = (path.path_imagem.replace("\\","#").split("#",1))[1]
+        path.path_imagem = (path.path_imagem.replace("/","#").split("#",1))[1]
     return render_template('feed_logado.html',
         receitas_novas=sorted(receitas,key=lambda receita :receita.id_receita,reverse=True),
         receitas_salvas=receitas_salvas,paths=paths,maiores_avaliacoes=maiores_avaliacoes)
@@ -194,7 +194,7 @@ def mostrar_receita(id_receita):
     medidas = Medidas.query.all()
     paths = PathImagem.query.all()
     for path in paths:
-        path.path_imagem = (path.path_imagem.replace("\\","#").split("#",1))[1] 
+        path.path_imagem = (path.path_imagem.replace("/","#").split("#",1))[1] 
     recomendacoes = recomendacao(id_receita)
     return render_template('mostrar_receita.html',receita=receita,paths=paths,ingredientes=ingredientes,medidas=medidas,recomendacoes=recomendacoes,receitas=receitas)
 
@@ -206,7 +206,7 @@ def minhas_receitas():
     medidas = Medidas.query.all()
     paths = PathImagem.query.all()
     for path in paths:
-        path.path_imagem = (path.path_imagem.replace("\\","#").split("#",1))[1] 
+        path.path_imagem = (path.path_imagem.replace("/","#").split("#",1))[1] 
     return render_template('minhas_receitas.html',paths=paths,ingredientes=ingredientes,medidas=medidas,receitas=receitas)
 
 @app.route('/avaliacoes/<int:id_receita>/<int:nota>', methods=['GET', 'POST'])
@@ -242,7 +242,7 @@ def salvar_receita(id_receita):
         paths = PathImagem.query.all()
         recomendacoes = recomendacao(id_receita)
         for path in paths:
-            path.path_imagem = (path.path_imagem.replace("\\","#").split("#",1))[1]
+            path.path_imagem = (path.path_imagem.replace("/","#").split("#",1))[1]
         return redirect(url_for('mostrar_receita',id_receita=id_receita))
     return redirect(url_for('mostrar_receita',id_receita=id_receita)) 
     
@@ -272,7 +272,7 @@ def mostrar_salvas():
     medidas = Medidas.query.all()
     paths = PathImagem.query.all()
     for path in paths:
-        path.path_imagem = (path.path_imagem.replace("\\","#").split("#",1))[1] 
+        path.path_imagem = (path.path_imagem.replace("/","#").split("#",1))[1] 
     return render_template('mostrar_salvas.html',receitas_salvas=receitas_salvas,paths=paths,medidas=medidas,avaliadas=avaliadas)
 
 
@@ -558,7 +558,7 @@ def buscar_ingredientes():
 
         paths = PathImagem.query.all()
         for path in paths:
-            path.path_imagem = (path.path_imagem.replace("\\","#").split("#",1))[1]
+            path.path_imagem = (path.path_imagem.replace("/","#").split("#",1))[1]
 
     return render_template('resultados_busca_ingredientes.html',buscas=busca,recomendacoes=tabela_recomendacoes,paths=paths)
                     
@@ -571,7 +571,7 @@ def buscar_titulo():
                                         where upper(titulo) like upper('%{titulo}%') limit 20;''')
         paths = PathImagem.query.all()
         for path in paths:
-            path.path_imagem = (path.path_imagem.replace("\\","#").split("#",1))[1]
+            path.path_imagem = (path.path_imagem.replace("/","#").split("#",1))[1]
         return render_template('resultados_busca_titulo.html',receitas=receitas,paths=paths,titulo=titulo)
 
 app.run(debug=True)
