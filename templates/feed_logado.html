@@ -256,7 +256,7 @@
       <div class="flex flex-row">
         <a href="{{ url_for('mostrar_receita',id_receita=receita_salva.id_receita) }}">
           <img
-            src="static/uploads/recipes/{{receita_salva.id_receita}}_{{receita_salva.titulo.replace(' ','')}}/{{caminho.path_imagem}}"
+            src="static/uploads/recipes/{{receita_salva.id_receita}}/{{caminho.path_imagem}}"
             alt="Card">
         </a>
       </div>
@@ -288,7 +288,7 @@
       <div class="flex flex-row">
         <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
           <img
-            src="static/uploads/recipes/{{receita.id_receita}}_{{receita.titulo.replace(' ','')}}/{{caminho.path_imagem}}"
+            src="static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}"
             alt="Card">
         </a>
       </div>
