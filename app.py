@@ -123,9 +123,6 @@ def cadastrar_receita():
             if request.form['privada'] == 'on':
                 privada = True
 
-        with open("cadastro_receita.txt", 'w') as arq:
-            arq.write(titulo+"\n"+str(vegetariana)+"\n"+str(vegana)+"\n"+str(semgluten)+"\n"+str(semlactose)+"\n"+str(saudavel)+"\n"+str(porcoes)+"\n"+str(tempo_preparo)+"\n"+str(tipo_refeicao)+"\n"+str(instrucoes)+"\n"+str(privada)+"\n\n")
-
         receita = Receita(titulo,vegetariana,vegana,semgluten,semlactose,saudavel,porcoes,tempo_preparo,tipo_refeicao,instrucoes,privada,current_user.id)
         db.session.add(receita)
         db.session.commit()
@@ -142,11 +139,10 @@ def cadastrar_receita():
                 ingrediente = request.form['ingrediente'+str(i)]
                 unidademedida = request.form['unidademedida'+str(i)]
                 relaciona_ingrediente(id_novo, ingrediente, quantidade, unidademedida)
-                with open("relaciona_item.txt", 'a') as arq2:
-                    arq2.write(str(quantidade)+"\n"+str(ingrediente)+"\n"+str(unidademedida))
+    
 
         
-        diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/recipes/"+str(id_novo)+'_'+titulo.replace(' ','')
+        diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/recipes/"+str(id_novo)
 
         os.makedirs(diretorio)
         foto = request.files['foto']
@@ -201,9 +197,7 @@ def minhas_receitas():
     ingredientes = Relacionamento_ingrediente_receita.query.all()
     receitas = db.session.execute(f''' SELECT * FROM myrecipe_producao.tb_receita where id_usuario={current_user.id} order by id_receita desc ''')
     medidas = Medidas.query.all()
-    paths = PathImagem.query.all()
-    for path in paths:
-        path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1] 
+    paths = PathImagem.query.all() 
     return render_template('minhas_receitas.html',paths=paths,ingredientes=ingredientes,medidas=medidas,receitas=receitas)
 
 @app.route('/avaliacoes/<int:id_receita>/<int:nota>', methods=['GET', 'POST'])
@@ -213,9 +207,6 @@ def avaliacoes(id_receita,nota):
     if(avaliacoes_dadas == None):
         id_receita = id_receita
         nota = nota
-        with open("avaliacao.txt", 'a') as arq20:
-                arq20.write(f'{str(id_receita)} {str(nota)} {current_user.nome} \n')
-                arq20.close()
         avaliacoes = Avaliacoes(id_receita, current_user.id, nota)
         db.session.add(avaliacoes)
         db.session.commit()  
@@ -238,8 +229,6 @@ def salvar_receita(id_receita):
         medidas = Medidas.query.all()
         paths = PathImagem.query.all()
         recomendacoes = recomendacao(id_receita)
-        for path in paths:
-            path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1]
         return redirect(url_for('mostrar_receita',id_receita=id_receita))
     return redirect(url_for('mostrar_receita',id_receita=id_receita)) 
     
@@ -268,8 +257,6 @@ def mostrar_salvas():
     
     medidas = Medidas.query.all()
     paths = PathImagem.query.all()
-    for path in paths:
-        path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1] 
     return render_template('mostrar_salvas.html',receitas_salvas=receitas_salvas,paths=paths,medidas=medidas,avaliadas=avaliadas)
 
 
@@ -308,9 +295,9 @@ def levenshteinDistanceDP(token1, token2):
     if distancia == 1:
         peso = 0.8
     if distancia == 2:
-        peso = 0.5
+        peso = 0.3
     if distancia > 2:
-        peso = 0.01
+        peso = 0
 
     return peso
 
@@ -323,9 +310,6 @@ def recomendacao(id_receita):
     receitas = Receita.query.filter(Receita.id_receita!=id_receita_amostra).all()
     
     for result_amostra in result_amostras:
-        with open("amostra.txt", 'a') as arq3:
-            arq3.write(str(result_amostra.ingrediente+"\n"))
-            arq3.close()
         
         for receita in receitas:
             peso_ingrediente = []
@@ -346,11 +330,9 @@ def recomendacao(id_receita):
             
             dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', result_amostra.ingrediente, quantidade_itens, max(peso_ingrediente)]
             tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
-            tabela_pesos.to_csv('tabela_pesos.csv',encoding='latin-1',sep=';',index=False)
             tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
             tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_pesos'] / tabela_recomendacoes['quantidade_itens']) 
             tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(10)
-            tabela_recomendacoes.to_csv('tabela_recomendacoes.csv',sep=';')    
     return (tabela_recomendacoes)
 
 @app.route('/editar_perfil', methods=['GET', 'POST'])
@@ -364,9 +346,6 @@ def editar_perfil():
 def preferencias():   
     if request.method == 'POST':
         usuario = Usuario.query.filter_by(id=current_user.id).first()
-        with open("unchecked.txt", 'a') as arq30:
-            arq30.write(str(request.form))
-            arq30.close()
         
         if 'vegetariano' in request.form:
             if request.form['vegetariano']=='on': usuario.vegetariano = 1
@@ -447,19 +426,14 @@ def editar_receita(id_receita):
                         quantidade = request.form['quantidade'+str(i)]
                         ingrediente = request.form['ingrediente'+str(i)]
                         unidademedida = request.form['unidademedida'+str(i)]
-                        relaciona_ingrediente(id_novo, ingrediente, quantidade, unidademedida)
-                        with open("relaciona_item.txt", 'a') as arq2:
-                            arq2.write(str(quantidade)+"\n"+str(ingrediente)+"\n"+str(unidademedida))
-            
-
-            
-            diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/recipes/"+str(id_novo)+'_'+titulo.replace(' ','')
+                        relaciona_ingrediente(id_novo, ingrediente, quantidade, unidademedida)            
+            diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/recipes/"+str(id_novo)
 
             os.makedirs(diretorio)
             foto = request.files['foto']
             foto.save(os.path.join(diretorio, foto.filename))
 
-            path_imagem = PathImagem(id_novo,os.path.join(diretorio, foto.filename))
+            path_imagem = PathImagem(id_novo,foto.filename)
             db.session.add(path_imagem)
             db.session.commit()
         else:
@@ -495,11 +469,9 @@ def deletar_receita(id_receita):
 def buscar_ingredientes():
     
     if request.method == 'POST':
-        pesos = []
         busca = []
         ingredientes_busca = {}
         tabela_pesos = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','peso']) 
-        tabela_rec_busca = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','unidade_medida','peso','percentual_recomendacao'])
         for i in range(50):
                 if 'quantidade'+str(i) in request.form:
                     ingredientes_busca = {'quantidade': request.form['quantidade'+str(i)],
@@ -527,16 +499,10 @@ def buscar_ingredientes():
 
                 dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', ingrediente['ingrediente'], quantidade_itens, max(peso)]
                 tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
-        tabela_pesos.to_csv('tabela_pesos.csv',encoding='latin-1',sep=';',index=False)
         tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
         tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_pesos'] / tabela_recomendacoes['quantidade_itens'])
         tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(50)
-        tabela_recomendacoes.to_csv('tabela_busca_recomendada.csv',sep=';')
-
         paths = PathImagem.query.all()
-        for path in paths:
-            path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1]
-
     return render_template('resultados_busca_ingredientes.html',buscas=busca,recomendacoes=tabela_recomendacoes,paths=paths)
                     
 @app.route('/buscar_titulo', methods=['GET', 'POST'])
@@ -547,8 +513,6 @@ def buscar_titulo():
         receitas = db.session.execute(f'''SELECT * FROM myrecipe_producao.tb_receita
                                         where upper(titulo) like upper('%{titulo}%') limit 20;''')
         paths = PathImagem.query.all()
-        for path in paths:
-            path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1]
         return render_template('resultados_busca_titulo.html',receitas=receitas,paths=paths,titulo=titulo)
 
 @app.route('/receita_sl/<int:id_receita>', methods=['GET', 'POST'])
