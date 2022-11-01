@@ -152,7 +152,7 @@ def cadastrar_receita():
         foto = request.files['foto']
         foto.save(os.path.join(diretorio, foto.filename))
 
-        path_imagem = PathImagem(id_novo,os.path.join(diretorio, foto.filename))
+        path_imagem = PathImagem(id_novo,foto.filename)
         db.session.add(path_imagem)
         db.session.commit()
         flash("Receita cadastrada com sucesso!")
@@ -190,13 +190,10 @@ def cadastrar_medidas():
 def mostrar_receita(id_receita):    
     receita = Receita.query.filter_by(id_receita=id_receita).first()
     ingredientes = Relacionamento_ingrediente_receita.query.filter_by(id_receita=id_receita)
-    receitas = Receita.query.all()
     medidas = Medidas.query.all()
-    paths = PathImagem.query.all()
-    for path in paths:
-        path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1] 
+    paths = PathImagem.query.all() 
     recomendacoes = recomendacao(id_receita)
-    return render_template('mostrar_receita.html',receita=receita,paths=paths,ingredientes=ingredientes,medidas=medidas,recomendacoes=recomendacoes,receitas=receitas)
+    return render_template('mostrar_receita.html',receita=receita,paths=paths,ingredientes=ingredientes,medidas=medidas,recomendacoes=recomendacoes)
 
 @app.route('/minhas_receitas', methods=['GET', 'POST'])
 @login_required
@@ -320,60 +317,40 @@ def levenshteinDistanceDP(token1, token2):
 
 def recomendacao(id_receita):
     id_receita_amostra = id_receita
-    vetor = []
-    tabela_recomendacoes = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','unidade_medida','peso','percentual_recomendacao'])
-    pd.set_option('float_format','{:.2f}'.format)
+    tabela_pesos = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','peso'])
     result_amostras = Relacionamento_ingrediente_receita.query.filter_by(id_receita=id_receita_amostra)
     tamanho_amostra = result_amostras.count()
+    receitas = Receita.query.filter(Receita.id_receita!=id_receita_amostra).all()
     
     for result_amostra in result_amostras:
         with open("amostra.txt", 'a') as arq3:
             arq3.write(str(result_amostra.ingrediente+"\n"))
             arq3.close()
         
-        receitas_procuradas = db.session.execute(f'''SELECT tir.*, tr.titulo FROM myrecipe_producao.tb_relacionamento_ingrediente_receita tir 
-                                                inner join myrecipe_producao.tb_receita tr on tir.id_receita = tr.id_receita 
-                                                where tir.id_receita != {id_receita_amostra}''')
-        
-        for receita in receitas_procuradas:
+        for receita in receitas:
+            peso_ingrediente = []
             contagem_itens = db.session.execute(f'''SELECT count(*) FROM myrecipe_producao.tb_relacionamento_ingrediente_receita  
                                                 where id_receita = {receita.id_receita}''')
-
             for quantidade_itens in contagem_itens:
                 quantidade_itens = quantidade_itens[0]
-
             
-            if result_amostra.id_medida == receita.id_medida:            
-                with open("buscas.txt", 'a') as arq4:
-                    arq4.write(str(receita.ingrediente+"\n"))
-                    arq4.close()
-                
-                vetor.append(levenshteinDistanceDP(result_amostra.ingrediente, receita.ingrediente))
-                peso_n = levenshteinDistanceDP(result_amostra.ingrediente, receita.ingrediente)
-                percentual_recomendacao = (result_amostra.qtde_ingrediente / receita.qtde_ingrediente)*peso_n
-                if percentual_recomendacao > 1:
-                    percentual_recomendacao = 1
-                elif percentual_recomendacao < 0:
-                    percentual_recomendacao = 0 # na linha (ou seja, recomendação daquele ingrediente dentro da minha receita amostra)
-                
-                dados_recomendacoes = [receita.id_receita, f'{str(receita.titulo)}', f'{str(receita.ingrediente)}', receita.qtde_ingrediente, receita.id_medida, peso_n, percentual_recomendacao]
-                tabela_recomendacoes.loc[len(tabela_recomendacoes)+1] = dados_recomendacoes
-
-                percentual_recomendacao = percentual_recomendacao * 100 #para printar somente
-                    
-                with open("pesos.txt", 'a') as arq5:
-                    arq5.write(str(f"Para o ingrediente - {result_amostra.ingrediente} com o ingrediente - {receita.ingrediente}, o peso atribuido foi: {percentual_recomendacao}%\n"))
-                    arq5.close()
-            elif tamanho_amostra <= quantidade_itens:
-                dados_recomendacoes = [receita.id_receita, f'{str(receita.titulo)}', f'{str(receita.ingrediente)}', receita.qtde_ingrediente, receita.id_medida, 0, 0]
-                tabela_recomendacoes.loc[len(tabela_recomendacoes)+1] = dados_recomendacoes
-
-        tabela_recomendacoes.to_csv('tabela_recomendacoes_por_ingrediente.csv',sep=';', index=False)        
-               
-    tabela_recomendacoes = tabela_recomendacoes.groupby('id_receita').agg(soma_percentuais=('percentual_recomendacao','sum'),contagem_receitas=('id_receita','count'),receita=('id_receita','max'),titulo=('titulo','max'))
-    tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_percentuais'] / tabela_recomendacoes['contagem_receitas'])
-    tabela_recomendacoes.to_csv('tabela_recomendacoes.csv',sep=';')
-    tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False)
+            receitas_procuradas = db.session.execute(f'''SELECT tir.*, tr.titulo FROM myrecipe_producao.tb_relacionamento_ingrediente_receita tir 
+                                                inner join myrecipe_producao.tb_receita tr on tir.id_receita = tr.id_receita 
+                                                where tir.id_receita != {id_receita_amostra} limit 150''')
+            
+            for ingrediente in receitas_procuradas:
+                contido = float(result_amostra.qtde_ingrediente)/float(ingrediente.qtde_ingrediente)
+                if contido > 1:
+                    contido = 1
+                peso_ingrediente.append(float(contido)*float(levenshteinDistanceDP(result_amostra.ingrediente, ingrediente.ingrediente)))
+            
+            dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', result_amostra.ingrediente, quantidade_itens, max(peso_ingrediente)]
+            tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
+            tabela_pesos.to_csv('tabela_pesos.csv',encoding='latin-1',sep=';',index=False)
+            tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
+            tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_pesos'] / tabela_recomendacoes['quantidade_itens']) 
+            tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(10)
+            tabela_recomendacoes.to_csv('tabela_recomendacoes.csv',sep=';')    
     return (tabela_recomendacoes)
 
 @app.route('/editar_perfil', methods=['GET', 'POST'])
@@ -534,7 +511,7 @@ def buscar_ingredientes():
         for ingrediente in busca:                
             for receita in receitas:
                 contagem_itens = db.session.execute(f'''SELECT count(*) FROM myrecipe_producao.tb_relacionamento_ingrediente_receita  
-                                                where id_receita = {receita.id_receita}''')
+                                                where id_receita = {receita.id_receita} ''')
 
                 for quantidade_itens in contagem_itens:
                     quantidade_itens = quantidade_itens[0]
@@ -573,5 +550,18 @@ def buscar_titulo():
         for path in paths:
             path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1]
         return render_template('resultados_busca_titulo.html',receitas=receitas,paths=paths,titulo=titulo)
+
+@app.route('/receita_sl/<int:id_receita>', methods=['GET', 'POST'])
+def receita_sl(id_receita):    
+    receita = Receita.query.filter_by(id_receita=id_receita).first()
+    ingredientes = Relacionamento_ingrediente_receita.query.filter_by(id_receita=id_receita)
+    receitas = Receita.query.all()
+    medidas = Medidas.query.all()
+    paths = PathImagem.query.all()
+    for path in paths:
+        path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1] 
+    
+    return render_template('mostra_receita_sem_login.html',receita=receita,paths=paths,ingredientes=ingredientes,medidas=medidas,receitas=receitas)
+
 
 app.run(debug=True)

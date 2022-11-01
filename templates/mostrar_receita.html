@@ -152,7 +152,7 @@
 <div class="flex-container">
   <div class="flex-item gap-2">
     <a class="btn btn-success" href="{{ url_for('salvar_receita',id_receita=receita.id_receita) }}" role="button">Salvar</a>
-    <a class="btn btn-info" href="#" role="button">Compartilhar</a>
+    <a class="btn btn-info" href="#" onClick="copiarTexto()"" role="button">Compartilhar</a>
     <a class="btn btn btn-danger" href="{{url_for('editar_receita',id_receita=receita.id_receita)}}" role="button">Editar</a>
   </div>
 </div>
@@ -163,48 +163,35 @@
 <div class="flex-container gap-2" style="padding: 50px; background-color:rgb(255, 255, 255)">
 <div class="scrolling-wrapper" style="padding:10px; text-align:center">
   
-  
-    
-  {% for receita in recomendacoes.receita %}
+    {% for key,value in recomendacoes.iterrows() %}
     {% for caminho in paths %}
-    {% for titulo_receita in receitas %}
-    {% if receita == caminho.id_receita %}
-    {% if receita == titulo_receita.id_receita %}
-    
-    
+    {% if value['id_receita'] == caminho.id_receita %}    
     <div class="resize img card gap-2 flex-item" style=" padding: 10px; width: 250px;height: 250px;">
-      <a href="{{ url_for('mostrar_receita',id_receita=receita) }}">
-        <img src="http://18.208.182.254/static/uploads/recipes/{{receita}}_{{titulo_receita.titulo.replace(' ','')}}/{{caminho.path_imagem}}"
+      <a href="{{ url_for('mostrar_receita',id_receita=value['id_receita']) }}">
+        <img src="/static/uploads/recipes/{{value['id_receita']}}_{{value['titulo'].replace(' ','')}}/{{caminho.path_imagem}}"
         alt="Card">
       </a>
-      <div class="flex flex-row">
-        <hr style="color:rgb(254, 244, 227)">
-      </div>
-      <div class="flex flex-row">
-        <h5>{{titulo_receita.titulo}}</h5>        
-      </div>
-      <span style="color:rgb(227, 14, 14)">
-        {% for key,value in recomendacoes.iterrows() %}
-        {% if key == receita%}
-          
-          <p> {{ '%0.2f' |format(value['percentual_total'] * 100 | float)}}% relevante</p>
-        {%endif%}   
-        {% endfor %}</span>
+        <div class="card-body">
+          <h5 class="card-title">{{value['titulo']}}</h5>
+          <p class="card-text"> 
+            {{ '%0.2f' |format(value['percentual_total'] * 100 | float)}}% relevante
+          </p>
+        </div> 
     </div>
-    {% endif %}    
     {% endif %}
     {% endfor %}
-    {% endfor %}
-    {% endfor %}
-
+    {%endfor%}
   </div>
 </div>
 
-
-
-
-
-
+<script>
+  function copiarTexto() {
+    var textoCopiado = "teste2";
+    textoCopiado.select();
+    document.execCommand("Copy");
+    alert("Texto Copiado: " + textoCopiado.value);
+  }
+</script>
 
 
 

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/owl.carousel.min.css')}}">
 
     <!-- Bootstrap CSS -->
-
+	
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{url_for('static', filename='login/css/main.css')}}">
     
@@ -45,16 +45,16 @@
 					</span>
 					<div class="wrap-input100 validate-input">
 						<span class="focus-input100" data-placeholder="Escolha uma foto de perfil"></span><br><br>
-						<input class="input100" type="file" name="foto"  accept="image/png, image/jpeg"  multiple /> 
+						<input required class="input100" type="file" onchange="Filevalidation()" name="foto"  accept="image/png, image/jpeg"  multiple /> 
 					</div>
 
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="text" name="name">
+						<input required class="input100" type="text" name="name">
 						<span class="focus-input100" data-placeholder="Nome"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-						<input class="input100" type="text" name="email">
+						<input required class="input100" type="text" name="email">
 						<span class="focus-input100" data-placeholder="Email"></span>
 					</div>
 
@@ -62,18 +62,18 @@
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input class="input100 validate-input" type="password" name="password">
+						<input required class="input100 validate-input" type="password" name="password">
 						<span class="focus-input100" data-placeholder="Senha"></span>
 					</div>
 
                     <div class="wrap-input100 validate-input">
 						<span class="focus-input100" data-placeholder="Data de Nascimento"></span><br><br>
-						<input class="input100" type="date" name="nascimento">
+						<input required class="input100" type="date" name="nascimento">
 						
 					</div>
 					
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="cep" name="cep" required pattern="\d{5}-\d{3}">
+						<input class="input100" type="cep" name="cep" required pattern="\d{5}-\d{3}||\d{8}">
 						<span class="focus-input100" data-placeholder="CEP (00000-000)"></span>
 					</div>
 
@@ -105,7 +105,30 @@
 	</div>
 	<div id="dropDownSelect1"></div>
 
-
+	<script>
+		Filevalidation = () => {
+			const fi = document.getElementById('file');
+			// Check if any file is selected.
+			if (fi.files.length > 0) {
+				for (const i = 0; i <= fi.files.length - 1; i++) {
+	  
+					const fsize = fi.files.item(i).size;
+					const file = Math.round((fsize / 1024));
+					// The size of the file.
+					if (file >= 1024) {
+						alert(
+						  "File too Big, please select a file less than 1mb");
+					} else if (file < 512) {
+						alert(
+						  "File too small, please select a file greater than 512kb");
+					} else {
+						document.getElementById('size').innerHTML = '<b>'
+						+ file + '</b> KB';
+					}
+				}
+			}
+		}
+	</script>
 	<script src="{{ url_for('static', filename='login/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
 
 	<script src="{{ url_for('static', filename='login/vendor/animsition/js/animsition.min.js') }}"></script>

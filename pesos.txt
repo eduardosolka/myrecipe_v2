@@ -381,3 +381,11 @@ Para o ingrediente - sal com o ingrediente - canela, o peso atribuido foi: 1.0%
 Para o ingrediente - leite condensado com o ingrediente - OVO, o peso atribuido foi: 1.0%
 Para o ingrediente - canela com o ingrediente - sal, o peso atribuido foi: 1.0%
 Para o ingrediente - creme de leite com o ingrediente - OVO, o peso atribuido foi: 1.0%
+Para o ingrediente - leite com o ingrediente - Leite, o peso atribuido foi: 80.0%
+Para o ingrediente - leite com o ingrediente - Leite, o peso atribuido foi: 80.0%
+Para o ingrediente - leite com o ingrediente - Leite, o peso atribuido foi: 80.0%
+Para o ingrediente - leite com o ingrediente - Leite, o peso atribuido foi: 80.0%
+Para o ingrediente - leite com o ingrediente - Leite, o peso atribuido foi: 80.0%
+Para o ingrediente - leite com o ingrediente - Leite, o peso atribuido foi: 80.0%
+Para o ingrediente - leite com o ingrediente - Leite, o peso atribuido foi: 80.0%
+Para o ingrediente - leite com o ingrediente - Leite, o peso atribuido foi: 80.0%

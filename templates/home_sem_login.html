@@ -16,6 +16,33 @@
 
   <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
   <title>My Recipe</title>
+  <style>
+    .flex-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-content: center;
+        align-items: stretch;
+    }
+
+    .flex-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .flex-column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .flex-item {
+        padding-left: 20%;
+        padding-right: 20%;
+        flex: auto;
+        align-self: auto;
+    }
+</style>
 </head>
 
 
@@ -36,8 +63,8 @@
     </nav>
 
 
-  <div class="teste">
-    
+  <div class="flex flex-column" style="margin-top:50px;align-items:center">
+    <p>Avalie o sistema em: <a href="https://forms.gle/ghj7DFk2Z5VSKf638" target="_blank">https://forms.gle/ghj7DFk2Z5VSKf638</a></p>
 
     {% block conteudo %}
     
