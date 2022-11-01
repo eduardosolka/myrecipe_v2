@@ -168,7 +168,7 @@
     {% if value['id_receita'] == caminho.id_receita %}    
     <div class="resize img card gap-2 flex-item" style=" padding: 10px; width: 250px;height: 250px;">
       <a href="{{ url_for('mostrar_receita',id_receita=value['id_receita']) }}">
-        <img src="/static/uploads/recipes/{{value['id_receita']}}_{{value['titulo'].replace(' ','')}}/{{caminho.path_imagem}}"
+        <img src="http://18.208.182.254/static/uploads/recipes/{{value['id_receita']}}_{{value['titulo'].replace(' ','')}}/{{caminho.path_imagem}}"
         alt="Card">
       </a>
         <div class="card-body">
