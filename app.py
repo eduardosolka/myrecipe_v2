@@ -326,8 +326,18 @@ def recomendacao(id_receita):
                 contido = float(result_amostra.qtde_ingrediente)/float(ingrediente.qtde_ingrediente)
                 if contido > 1:
                     contido = 1
-                peso_ingrediente.append(float(contido)*float(levenshteinDistanceDP(result_amostra.ingrediente, ingrediente.ingrediente)))
-            
+                distancia_leven = 0
+                if result_amostra.ingrediente == ingrediente.ingrediente:
+                    distancia_leven = 1
+                elif len(result_amostra.ingrediente) - len(ingrediente.ingrediente) > 2 or len(ingrediente.ingrediente) - len(result_amostra.ingrediente) > 2:
+                    if result_amostra.ingrediente in ingrediente.ingrediente or ingrediente.ingrediente in result_amostra.ingrediente:
+                        distancia_leven = 0.5
+                    else: 
+                        distancia_leven = 0
+                else:
+                    distancia_leven = levenshteinDistanceDP(result_amostra.ingrediente, ingrediente.ingrediente)
+                peso_ingrediente.append(float(contido)*distancia_leven)
+                            
             dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', result_amostra.ingrediente, quantidade_itens, max(peso_ingrediente)]
             tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
             tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
