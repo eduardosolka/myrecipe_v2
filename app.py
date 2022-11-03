@@ -320,23 +320,25 @@ def recomendacao(id_receita):
             
             receitas_procuradas = db.session.execute(f'''SELECT tir.*, tr.titulo FROM myrecipe_producao.tb_relacionamento_ingrediente_receita tir 
                                                 inner join myrecipe_producao.tb_receita tr on tir.id_receita = tr.id_receita 
-                                                where tir.id_receita != {id_receita_amostra} limit 150''')
+                                                where tir.id_receita = {receita.id_receita} order by tir.id_receita limit 150''')
             
             for ingrediente in receitas_procuradas:
                 contido = float(result_amostra.qtde_ingrediente)/float(ingrediente.qtde_ingrediente)
                 if contido > 1:
                     contido = 1
+                else:
+                    contido = float(result_amostra.qtde_ingrediente)/float(ingrediente.qtde_ingrediente)
                 distancia_leven = 0
-                if result_amostra.ingrediente == ingrediente.ingrediente:
+                if result_amostra.ingrediente.lower() == ingrediente.ingrediente.lower():
                     distancia_leven = 1
                 elif len(result_amostra.ingrediente) - len(ingrediente.ingrediente) > 2 or len(ingrediente.ingrediente) - len(result_amostra.ingrediente) > 2:
-                    if result_amostra.ingrediente in ingrediente.ingrediente or ingrediente.ingrediente in result_amostra.ingrediente:
+                    if result_amostra.ingrediente.lower() in ingrediente.ingrediente.lower() or ingrediente.ingrediente.lower() in result_amostra.ingrediente.lower():
                         distancia_leven = 0.5
                     else: 
                         distancia_leven = 0
                 else:
-                    distancia_leven = levenshteinDistanceDP(result_amostra.ingrediente, ingrediente.ingrediente)
-                peso_ingrediente.append(float(contido)*distancia_leven)
+                    distancia_leven = levenshteinDistanceDP(result_amostra.ingrediente.lower(), ingrediente.ingrediente.lower())
+                peso_ingrediente.append(contido * distancia_leven)
                             
             dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', result_amostra.ingrediente, quantidade_itens, max(peso_ingrediente)]
             tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
@@ -504,8 +506,23 @@ def buscar_ingredientes():
                                                         where tir.id_receita = {receita.id_receita};''')
                                                                    
                 for ingrediente_rec in ingredientes_receita:
-                    peso.append((float(ingrediente['quantidade'])/float(ingrediente_rec.qtde_ingrediente))*float(levenshteinDistanceDP(ingrediente['ingrediente'], ingrediente_rec.ingrediente)))
-
+                    contido = float(ingrediente['quantidade'])/float(ingrediente_rec.qtde_ingrediente)
+                    if contido > 1:
+                        contido = 1
+                    else:
+                        contido = float(ingrediente['quantidade'])/float(ingrediente_rec.qtde_ingrediente)
+                    
+                    distancia_leven = 0
+                    if ingrediente['ingrediente'].lower() == ingrediente_rec.ingrediente.lower():
+                        distancia_leven = 1
+                    elif len(ingrediente['ingrediente']) - len(ingrediente_rec.ingrediente) > 2 or len(ingrediente_rec.ingrediente) - len(ingrediente['ingrediente']) > 2:
+                        if ingrediente['ingrediente'].lower() in ingrediente_rec.ingrediente.lower() or ingrediente_rec.ingrediente.lower() in ingrediente['ingrediente'].lower():
+                            distancia_leven = 0.5
+                        else: 
+                            distancia_leven = 0
+                    else:
+                        distancia_leven = levenshteinDistanceDP(ingrediente['ingrediente'].lower(), ingrediente_rec.ingrediente.lower())
+                    peso.append(contido * distancia_leven)
 
                 dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', ingrediente['ingrediente'], quantidade_itens, max(peso)]
                 tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
