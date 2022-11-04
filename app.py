@@ -18,26 +18,30 @@ app.config.from_object('config')
 @app.route('/cadastrar_usuario', methods=['GET', 'POST'])
 def cadastrar_usuario():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        senha = request.form['password']
-        nascimento = request.form['nascimento']
-        foto_nome = request.files['foto'].filename
-        cep = request.form['cep']
-        user = Usuario(name, email, senha, nascimento, cep, foto_nome,0,0,0,0)
-        db.session.add(user)
-        db.session.commit()
+        usuarios = Usuario.query.all()
+        if request.form['email'] not in usuarios.email:
+            name = request.form['name']
+            email = request.form['email']
+            senha = request.form['password']
+            nascimento = request.form['nascimento']
+            foto_nome = request.files['foto'].filename
+            cep = request.form['cep']
+            user = Usuario(name, email, senha, nascimento, cep, foto_nome,0,0,0,0)
+            db.session.add(user)
+            db.session.commit()
 
-        maior_id = db.session.execute('select max(id) from myrecipe_producao.usuarios')
-        for id_novo in maior_id:
-            id_novo = id_novo[0]
-        foto = request.files['foto']  
-        diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/users/"+str(id_novo)
-        os.makedirs(diretorio)       
-        foto.save(os.path.join(diretorio, foto.filename))       
-        user = Usuario.query.filter_by(email=email).first()
-        login_user(user)
-        return redirect(url_for('homepage'))
+            maior_id = db.session.execute('select max(id) from myrecipe_producao.usuarios')
+            for id_novo in maior_id:
+                id_novo = id_novo[0]
+            foto = request.files['foto']  
+            diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/users/"+str(id_novo)
+            os.makedirs(diretorio)       
+            foto.save(os.path.join(diretorio, foto.filename))       
+            user = Usuario.query.filter_by(email=email).first()
+            login_user(user)
+            return redirect(url_for('homepage'))
+        else:
+            flash("usuario já cadastrado!")
     return render_template('cadastro_usuario.html')
 
 
