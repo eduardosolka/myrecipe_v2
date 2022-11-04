@@ -18,8 +18,8 @@ app.config.from_object('config')
 @app.route('/cadastrar_usuario', methods=['GET', 'POST'])
 def cadastrar_usuario():
     if request.method == 'POST':
-        usuarios = Usuario.query.all()
-        if request.form['email'] not in usuarios.email:
+        user = Usuario.query.filter_by(email=request.form['email']).first()
+        if user == None:
             name = request.form['name']
             email = request.form['email']
             senha = request.form['password']

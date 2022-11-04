@@ -26,22 +26,23 @@
 <!--===============================================================================================-->
 </head>
 <body>
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		<ul id="messages" class="list-unstyled">
-		{% for message in messages %}
-			<li class="alert alert-danger">{{ message }}</li>
-		{% endfor %}
-		</ul>
-	{% endif %}
-{% endwith %}
+	
 
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
+				{% with messages = get_flashed_messages() %}
+				{% if messages %}
+				<ul id="messages" class="list-unstyled">
+					{% for message in messages %}
+						<li class="alert alert-danger">{{ message }}</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+				{% endwith %}
 				<form class="login100-form validate-form" action="{{url_for('cadastrar_usuario')}}" enctype="multipart/form-data" method="post">
 					<span class="login100-form-title p-b-26">
-						Cadastro de usuario
+						Cadastro de usuário
 					</span>
 					<div class="wrap-input100 validate-input">
 						<span class="focus-input100" data-placeholder="Escolha uma foto de perfil"></span><br><br>
