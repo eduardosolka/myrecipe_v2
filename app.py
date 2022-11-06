@@ -309,50 +309,52 @@ def levenshteinDistanceDP(token1, token2):
 def recomendacao(id_receita):
     id_receita_amostra = id_receita
     tabela_pesos = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','peso'])
-    result_amostras = Relacionamento_ingrediente_receita.query.filter_by(id_receita=id_receita_amostra)
-    tamanho_amostra = result_amostras.count()
+    result_amostras = Relacionamento_ingrediente_receita.query.filter(Relacionamento_ingrediente_receita.id_receita==id_receita_amostra).all()
     receitas = db.session.execute(f''' SELECT * FROM tb_receita
-                                    where id_receita in (select distinct id_receita FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
-					                                    where ingrediente in (select ingrediente FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
-									                                        where id_receita = {id_receita}) 
-                                    and id_receita != {id_receita}); ''')
+                                        where id_receita in (select distinct id_receita FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
+					                                        where ingrediente in (select ingrediente FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
+										                                        where id_receita = {id_receita}) 
+                                        and id_receita != {id_receita});''').fetchall()
     
     for result_amostra in result_amostras:
-        
+        ingrediente_buscado = result_amostra.ingrediente           
         for receita in receitas:
-            peso_ingrediente = []
-            contagem_itens = db.session.execute(f'''SELECT count(*) FROM myrecipe_producao.tb_relacionamento_ingrediente_receita  
-                                                where id_receita = {receita.id_receita}''')
-            for quantidade_itens in contagem_itens:
-                quantidade_itens = quantidade_itens[0]
-            
-            receitas_procuradas = db.session.execute(f'''SELECT tir.*, tr.titulo FROM myrecipe_producao.tb_relacionamento_ingrediente_receita tir 
-                                                inner join myrecipe_producao.tb_receita tr on tir.id_receita = tr.id_receita 
-                                                where tir.id_receita = {receita.id_receita} order by tir.id_receita limit 150''')
-            
-            for ingrediente in receitas_procuradas:
-                contido = float(result_amostra.qtde_ingrediente)/float(ingrediente.qtde_ingrediente)
-                if contido > 1:
-                    contido = 1
-                else:
+            testa_se_tem = db.session.execute(f'''SELECT count(*) FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
+            where ingrediente in ('{ingrediente_buscado}') and id_receita = {receita.id_receita}''').fetchone()
+            if testa_se_tem[0] > 0:
+                peso_ingrediente = []
+                contagem_itens = db.session.execute(f'''SELECT count(*) FROM myrecipe_producao.tb_relacionamento_ingrediente_receita  
+                                                    where id_receita = {receita.id_receita}''')
+                for quantidade_itens in contagem_itens:
+                    quantidade_itens = quantidade_itens[0]
+                
+                receitas_procuradas = db.session.execute(f'''SELECT tir.*, tr.titulo FROM myrecipe_producao.tb_relacionamento_ingrediente_receita tir 
+                                                    inner join myrecipe_producao.tb_receita tr on tir.id_receita = tr.id_receita 
+                                                    where tir.id_receita = {receita.id_receita} order by tir.id_receita limit 150''')
+                
+                for ingrediente in receitas_procuradas:
                     contido = float(result_amostra.qtde_ingrediente)/float(ingrediente.qtde_ingrediente)
-                distancia_leven = 0
-                if result_amostra.ingrediente.lower() == ingrediente.ingrediente.lower():
-                    distancia_leven = 1
-                elif len(result_amostra.ingrediente) - len(ingrediente.ingrediente) > 2 or len(ingrediente.ingrediente) - len(result_amostra.ingrediente) > 2:
-                    if result_amostra.ingrediente.lower() in ingrediente.ingrediente.lower() or ingrediente.ingrediente.lower() in result_amostra.ingrediente.lower():
-                        distancia_leven = 0.8
-                    else: 
-                        distancia_leven = 0
-                else:
-                    distancia_leven = levenshteinDistanceDP(result_amostra.ingrediente.lower(), ingrediente.ingrediente.lower())
-                peso_ingrediente.append(contido * distancia_leven)
-                            
-            dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', result_amostra.ingrediente, quantidade_itens, max(peso_ingrediente)]
-            tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
-            tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
-            tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_pesos'] / tabela_recomendacoes['quantidade_itens']) 
-            tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(10)
+                    if contido > 1:
+                        contido = 1
+                    else:
+                        contido = float(result_amostra.qtde_ingrediente)/float(ingrediente.qtde_ingrediente)
+                    distancia_leven = 0
+                    if result_amostra.ingrediente.lower() == ingrediente.ingrediente.lower():
+                        distancia_leven = 1
+                    elif len(result_amostra.ingrediente) - len(ingrediente.ingrediente) > 2 or len(ingrediente.ingrediente) - len(result_amostra.ingrediente) > 2:
+                        if result_amostra.ingrediente.lower() in ingrediente.ingrediente.lower() or ingrediente.ingrediente.lower() in result_amostra.ingrediente.lower():
+                            distancia_leven = 0.8
+                        else: 
+                            distancia_leven = 0
+                    else:
+                        distancia_leven = levenshteinDistanceDP(result_amostra.ingrediente.lower(), ingrediente.ingrediente.lower())
+                    peso_ingrediente.append(contido * distancia_leven)
+                                
+                dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', result_amostra.ingrediente, quantidade_itens, max(peso_ingrediente)]
+                tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
+                tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
+                tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_pesos'] / tabela_recomendacoes['quantidade_itens']) 
+                tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(10)   
     return (tabela_recomendacoes)
 
 @app.route('/editar_perfil', methods=['GET', 'POST'])
@@ -534,9 +536,11 @@ def buscar_ingredientes():
 
                 dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', ingrediente['ingrediente'], quantidade_itens, max(peso)]
                 tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
+        tabela_pesos.to_csv('tabela_pesos.csv',sep=';')
         tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
         tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_pesos'] / tabela_recomendacoes['quantidade_itens'])
         tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(50)
+        tabela_recomendacoes.to_csv('tabela_recomendacoes.csv',sep=';')
         paths = PathImagem.query.all()
     return render_template('resultados_busca_ingredientes.html',buscas=busca,recomendacoes=tabela_recomendacoes,paths=paths)
                     
