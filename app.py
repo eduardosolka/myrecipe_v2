@@ -341,7 +341,7 @@ def recomendacao(id_receita):
                     distancia_leven = 1
                 elif len(result_amostra.ingrediente) - len(ingrediente.ingrediente) > 2 or len(ingrediente.ingrediente) - len(result_amostra.ingrediente) > 2:
                     if result_amostra.ingrediente.lower() in ingrediente.ingrediente.lower() or ingrediente.ingrediente.lower() in result_amostra.ingrediente.lower():
-                        distancia_leven = 0.5
+                        distancia_leven = 0.8
                     else: 
                         distancia_leven = 0
                 else:
