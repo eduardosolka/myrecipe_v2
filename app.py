@@ -311,7 +311,11 @@ def recomendacao(id_receita):
     tabela_pesos = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','peso'])
     result_amostras = Relacionamento_ingrediente_receita.query.filter_by(id_receita=id_receita_amostra)
     tamanho_amostra = result_amostras.count()
-    receitas = Receita.query.filter(Receita.id_receita!=id_receita_amostra).all()
+    receitas = db.session.execute(f''' SELECT * FROM tb_receita
+                                    where id_receita in (select distinct id_receita FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
+					                                    where ingrediente in (select ingrediente FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
+									                                        where id_receita = 106) 
+                                    and id_receita != 106); ''')
     
     for result_amostra in result_amostras:
         
