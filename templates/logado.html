@@ -28,7 +28,7 @@
     <title>My Recipe</title>
   </head>
   
-  <body style="background-color:#fff">
+  <body style="background-color:#fff; max-width: auto;">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark"; style="background-color: #c42020;">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
@@ -43,7 +43,7 @@
                 <a class="nav-link active" aria-current="page" href="{{ url_for('homepage') }}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('mostrar_salvas') }}">Receitas Salvas</a>
+                <a class="nav-link active" href="{{ url_for('mostrar_salvas') }}">Receitas salvas</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link active dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,11 +53,11 @@
                   <li><a class="dropdown-item" href="{{ url_for('cadastrar_receita') }}">Receitas</a></li>
                 </ul>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown" style="width: 180px">
                 <a class="nav-link active dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Meu usuário
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                <ul class="dropdown-menu"  aria-labelledby="navbarScrollingDropdown">
                   <li><a class="dropdown-item" href="#">Olá, {{ current_user.nome }}</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{{ url_for('preferencias') }}">Preferencias</a></li>
