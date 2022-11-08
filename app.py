@@ -348,6 +348,8 @@ def recomendacao(id_receita):
                     else:
                         distancia_leven = levenshteinDistanceDP(result_amostra.ingrediente.lower(), ingrediente.ingrediente.lower())
                     peso_ingrediente.append(contido * distancia_leven)
+                    if distancia_leven == 1:
+                        break
                                 
                 dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', result_amostra.ingrediente, quantidade_itens, max(peso_ingrediente)]
                 tabela_pesos.loc[len(tabela_pesos)] = dados_pesos

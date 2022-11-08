@@ -54,7 +54,8 @@
 <div class="flex-container">
   <div class="flex-item gap-2" style="padding: 10px; background-color:rgb(255, 255, 255)">
     <div class="flex-row gap-2">
-      {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}      
+      {% for caminho in paths %}
+      {% if receita.id_receita == caminho.id_receita %}
       <div class="card gap-2" style="padding: 10px; width: 15rem">
         <img class="card-img-top"
           src="https://my-recipe-receitas.com/static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}"
@@ -63,7 +64,7 @@
           <h5 class="card-text row">{{receita.titulo}}</h5>
         </div>
       </div>
-      
+      {% endif %}
       {% endfor %}
     </div>
   </div>
@@ -140,7 +141,7 @@
   <div class="flex-item gap-2">
     <h6>Modo de preparo</h6>
     <hr>
-    <div class="flex-row gap-2" style="content:center;margin-bottom: 40px;">
+    <div class="flex-row gap-2" style="padding-left:20%;padding-right:20%;content:center;margin-bottom: 40px;">
       {{receita.instrucoes | safe}}
       Esta receita serve <strong>{{receita.porcoes}}</strong> pessoas e leva aproximadamente <strong>{{receita.tempo_preparo}}</strong> minutos de preparo.<br>
     </div>
@@ -162,12 +163,10 @@
 <div class="flex-container gap-2" style="padding: 50px; background-color:rgb(255, 255, 255)">
 <div class="scrolling-wrapper" style="padding:10px; text-align:center">
   
-    {% for key,value in recomendacoes.iterrows() %}
-    {% for caminho in paths | selectattr('id_receita', 'equalto', value['id_receita']) %}
-       
+    {% for key,value in recomendacoes.iterrows() %}   
     <div class="resize img card gap-2 flex-item" style=" padding: 10px; width: 250px;height: 250px;">
       <a href="{{ url_for('mostrar_receita',id_receita=value['id_receita']) }}">
-        <img src="https://my-recipe-receitas.com/static/uploads/recipes/{{value['id_receita']}}/{{caminho.path_imagem}}"
+        <img src="https://my-recipe-receitas.com/static/uploads/recipes/{{value['id_receita']}}/{{paths.path_imagem}}"
         alt="Card">
       </a>
         <div class="card-body">
@@ -177,8 +176,6 @@
           </p>
         </div> 
     </div>
-    
-    {%endfor%}
     {%endfor%}
   </div>
 </div>
