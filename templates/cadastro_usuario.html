@@ -42,21 +42,21 @@
 				{% endwith %}
 				<form class="login100-form validate-form" action="{{url_for('cadastrar_usuario')}}" enctype="multipart/form-data" method="post">
 					<span class="login100-form-title p-b-26">
-						Cadastro de usuário <p style="color:red">*</p>
+						Cadastro de usuário 
 					</span>
 					<div class="wrap-input100 validate-input">
-						<span class="focus-input100" data-placeholder="Escolha uma foto de perfil"></span><br><br>
+						<span class="focus-input100" data-placeholder="Escolha uma foto de perfil"></span><p style="color:red">*</p><br><br>
 						<input required class="input100" type="file" onchange="Filevalidation()" name="foto"  accept="image/png, image/jpeg"  multiple /> 
 					</div>
 
 					<div class="wrap-input100 validate-input">
 						<input required class="input100" type="text" name="name">
-						<span class="focus-input100" data-placeholder="Nome"></span>
+						<span class="focus-input100" data-placeholder="Nome"></span><p style="color:red">*</p>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
 						<input required class="input100" type="text" name="email">
-						<span class="focus-input100" data-placeholder="Email"></span>
+						<span class="focus-input100" data-placeholder="Email"></span><p style="color:red">*</p>
 					</div>
 
                     <div class="wrap-input100 validate-input" data-validate="Enter password">
@@ -64,17 +64,17 @@
 							<i class="zmdi zmdi-eye"></i>
 						</span>
 						<input required class="input100 validate-input" type="password" name="password">
-						<span class="focus-input100" data-placeholder="Senha"></span>
+						<span class="focus-input100" data-placeholder="Senha"></span><p style="color:red">*</p>
 					</div>
 
                     <div class="wrap-input100 validate-input">
-						<span class="focus-input100" data-placeholder="Data de Nascimento"></span><br><br>
+						<span class="focus-input100" data-placeholder="Data de Nascimento"></span><p style="color:red">*</p><br><br>
 						<input required class="input100" type="date" name="nascimento">
 						
 					</div>
 					
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="cep" name="cep" required pattern="\d{5}-\d{3}||\d{8}">
+						<input class="input100" type="cep" name="cep" pattern="\d{5}-\d{3}||\d{8}">
 						<span class="focus-input100" data-placeholder="CEP (00000-000)"></span>
 					</div>
 
