@@ -89,7 +89,10 @@ def logout():
 
 @app.route('/')
 def index():
-    return render_template('home_sem_login.html')
+    contador_receitas = Receita.query.count()
+    contador_usuarios = Usuario.query.count()
+    contador_avaliacoes = Avaliacoes.query.count()
+    return render_template('home_sem_login.html',cont_receitas=contador_receitas,cont_usuarios=contador_usuarios,cont_avaliacoes=contador_avaliacoes)
 
 
 @app.route('/cadastrar_receita', methods=['GET', 'POST'])
@@ -121,7 +124,6 @@ def cadastrar_receita():
         tempo_preparo = int(request.form['tempo'])
         tipo_refeicao = int(request.form['tiporefeicao'])
         instrucoes = request.form['editordata']
-        # teste = permite_tags(instrucoes)
         privada = False
         if  'privada' in request.form:
             if request.form['privada'] == 'on':
@@ -142,10 +144,7 @@ def cadastrar_receita():
                 quantidade = request.form['quantidade'+str(i)]
                 ingrediente = request.form['ingrediente'+str(i)]
                 unidademedida = request.form['unidademedida'+str(i)]
-                relaciona_ingrediente(id_novo, ingrediente, quantidade, unidademedida)
-    
-
-        
+                relaciona_ingrediente(id_novo, ingrediente, quantidade, unidademedida)        
         diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/recipes/"+str(id_novo)
 
         os.makedirs(diretorio)

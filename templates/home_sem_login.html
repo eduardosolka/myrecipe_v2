@@ -27,8 +27,12 @@
     }
 
     .flex-row {
+        justify-content: center;
+        align-content: center;
         display: flex;
         flex-direction: row;
+        padding-left: 30%;
+        padding-right: 30%;
     }
 
     .flex-column {
@@ -46,7 +50,7 @@
 </head>
 
 
-<body>
+<body style="background-color:#f2f2f2">
     <nav class="navbar navbar-expand-lg navbar-dark"; style="background-color: #c42020;">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
@@ -62,17 +66,86 @@
       </div>
     </nav>
 
+  <div class="flex flex-column" style="margin-top:50px; padding-left: 30%;padding-right: 30%">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="static/images/livro.jpg" width="400" height="450" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>Deixe de lado aquele velho caderno</h3>
+            <p style="color:white">Com o My Recipe, você cadastra suas receitas em poucos minutos.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="static/images/ingredientes.jpg" width="400" height="450" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>Descubra novas receitas</h3>
+            <p style="color:white">Encontre receitas por ingredientes e sistema de recomendação.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="static/images/truques-chefes-de-cozinha.jpg" width="400" height="450" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>Mão na massa</h3>
+            <p style="color:white">Salve, avalie e prepare receitas especiais.</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+ 
+    
+<div class="flex flex-column" style="margin-top:50px;align-items:center">
+    <span style="font-size:40px; color:#c42020"><strong>My Recipe em números</strong></span>
+</div>
 
+<div class="flex flex-row gap-4" style="margin-top:0px;align-items:center">  
   <div class="flex flex-column" style="margin-top:50px;align-items:center">
-    <p>Avalie o sistema em: <a href="https://forms.gle/ghj7DFk2Z5VSKf638" target="_blank">https://forms.gle/ghj7DFk2Z5VSKf638</a></p>
+    <span style="font-size:60px ;"><strong>{{cont_usuarios}}</strong></span>
+    <span>Usuários cadastrados</span>
+  </div>
+  <div class="flex flex-column" style="margin-top:50px;align-items:center">
+    <span style="font-size:60px ;"><strong>{{cont_receitas}}</strong></span>
+    <span>Receitas cadastradas</span>
+  </div>
+  <div class="flex flex-column" style="margin-top:50px;align-items:center">
+    <span style="font-size:60px ;"><strong>{{cont_avaliacoes}}</strong></span>
+    <span>Avaliações de usuários</span>
+  </div>  
+</div>
+
+
 
     {% block conteudo %}
     
     {% endblock %}
 
-  </div>
-
+  
+     
+    <footer style="position: fixed;bottom:0;left:30%;right:30% ;">
+      <div class="flex flex-column" style="margin-top:50px; align-items:center; align-self: flex-end;">
+        <p>Avalie o sistema em: <a href="https://forms.gle/ghj7DFk2Z5VSKf638" target="_blank">https://forms.gle/ghj7DFk2Z5VSKf638</a></p>
+      </div>  
+      <p class="text-center text-muted">© 2022 My Recipe - Receitas Inteligentes</p>
+    </footer> 
 </body>
+
+  
+
+
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
