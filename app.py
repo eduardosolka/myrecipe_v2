@@ -355,7 +355,7 @@ def recomendacao(id_receita):
                 tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
                 tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
                 tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_pesos'] / tabela_recomendacoes['quantidade_itens']) 
-                tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(10)   
+                tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(5)   
     return (tabela_recomendacoes)
 
 @app.route('/editar_perfil', methods=['GET', 'POST'])
@@ -537,11 +537,9 @@ def buscar_ingredientes():
 
                 dados_pesos = [receita.id_receita, f'{str(receita.titulo)}', ingrediente['ingrediente'], quantidade_itens, max(peso)]
                 tabela_pesos.loc[len(tabela_pesos)] = dados_pesos
-        tabela_pesos.to_csv('tabela_pesos.csv',sep=';')
         tabela_recomendacoes = tabela_pesos.groupby('id_receita').agg(soma_pesos=('peso','sum'),quantidade_itens=('quantidade','max'),titulo=('titulo','max')).reset_index()
         tabela_recomendacoes['percentual_total'] = (tabela_recomendacoes['soma_pesos'] / tabela_recomendacoes['quantidade_itens'])
         tabela_recomendacoes = tabela_recomendacoes.sort_values(by='percentual_total',ascending=False).head(50)
-        tabela_recomendacoes.to_csv('tabela_recomendacoes.csv',sep=';')
         paths = PathImagem.query.all()
     return render_template('resultados_busca_ingredientes.html',buscas=busca,recomendacoes=tabela_recomendacoes,paths=paths)
                     
