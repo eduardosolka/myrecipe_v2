@@ -165,7 +165,7 @@
     {% for key,value in recomendacoes.iterrows() %}
     {% for caminho in paths | selectattr('id_receita', 'equalto', value['id_receita']) %}
        
-    <div class="resize img card gap-2 flex-item" style=" padding: 10px; width: 250px;height: 250px;">
+    <div class="resize img card gap-2 flex-item" style=" padding: 10px; min-width: 250px;max-width: max-content;height: 250px;">
       <a href="{{ url_for('mostrar_receita',id_receita=value['id_receita']) }}">
         <img src="https://my-recipe-receitas.com/static/uploads/recipes/{{value['id_receita']}}/{{caminho.path_imagem}}"
         alt="Card">

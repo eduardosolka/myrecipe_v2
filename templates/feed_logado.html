@@ -191,7 +191,7 @@
       {% for receita in receitas_novas %}
       {% for caminho in paths %}
       {% if receita.id_receita == caminho.id_receita %}
-      <div class="resize card flex-item" style=" min-width: 200px;max-width: 250px; ">
+      <div class="resize card flex-item" style=" min-width: 200px;max-width: max-content; ">
         <div class="flex flex-row">
           <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
             <img src="static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}" alt="Card"
@@ -223,7 +223,7 @@
       {% for receita_salva in receitas_salvas %}
       {% for caminho in paths %}
       {% if receita_salva.id_receita == caminho.id_receita %}
-      <div class="resize card flex-item" style=" min-width: 200px;max-width: 250px; ">
+      <div class="resize card flex-item" style=" min-width: 200px;max-width: max-content; ">
         <div class="flex flex-row">
           <a href="{{ url_for('mostrar_receita',id_receita=receita_salva.id_receita) }}">
             <img src="static/uploads/recipes/{{receita_salva.id_receita}}/{{caminho.path_imagem}}" alt="Card">
@@ -256,7 +256,7 @@
       {% for receita in maiores_avaliacoes %}
       {% for caminho in paths %}
       {% if receita.id_receita == caminho.id_receita %}
-      <div class="resize card flex-item" style=" min-width: 200px;max-width: 250px; ">
+      <div class="resize card flex-item" style=" min-width: 200px;max-width: max-content; ">
         <div class="flex flex-row">
           <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
             <img src="static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}" alt="Card">

@@ -67,7 +67,7 @@
   <div class="flex-container">
   <div class="flex-item gap-2" style="padding: 10px; background-color:rgb(255, 255, 255)">
   <div class="flex-row gap-2">
-    <div class="card gap-2" style="padding: 10px; width: 15rem">
+    <div class="card gap-2" style="padding: 10px; width: 15rem; max-width: max-content">
       <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
       <img class="card-img-top"
         src="static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}"
