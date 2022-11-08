@@ -308,6 +308,7 @@ def levenshteinDistanceDP(token1, token2):
 def recomendacao(id_receita):
     id_receita_amostra = id_receita
     tabela_pesos = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','peso'])
+    tabela_recomendacoes = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','peso']) 
     result_amostras = Relacionamento_ingrediente_receita.query.filter(Relacionamento_ingrediente_receita.id_receita==id_receita_amostra).all()
     receitas = db.session.execute(f''' SELECT * FROM tb_receita
                                         where id_receita in (select distinct id_receita FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
@@ -316,7 +317,8 @@ def recomendacao(id_receita):
                                         and id_receita != {id_receita});''').fetchall()
     
     for result_amostra in result_amostras:
-        ingrediente_buscado = result_amostra.ingrediente           
+        ingrediente_buscado = result_amostra.ingrediente
+                 
         for receita in receitas:
             testa_se_tem = db.session.execute(f'''SELECT count(*) FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
             where ingrediente in ('{ingrediente_buscado}') and id_receita = {receita.id_receita}''').fetchone()
