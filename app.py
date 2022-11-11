@@ -310,12 +310,14 @@ def recomendacao(id_receita):
     tabela_pesos = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','peso'])
     tabela_recomendacoes = pd.DataFrame(columns=['id_receita','titulo','ingrediente','quantidade','peso']) 
     result_amostras = Relacionamento_ingrediente_receita.query.filter(Relacionamento_ingrediente_receita.id_receita==id_receita_amostra).all()
-    receitas = db.session.execute(f''' SELECT * FROM tb_receita
-                                        where id_receita in (select distinct id_receita FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
-					                                        where ingrediente in (select ingrediente FROM myrecipe_producao.tb_relacionamento_ingrediente_receita
-										                                        where id_receita = {id_receita}) 
-                                        and id_receita != {id_receita});''').fetchall()
-    
+    receitas = db.session.execute(f''' select r.*, count(*) as qtde_iguais from tb_receita r
+                                        inner join tb_relacionamento_ingrediente_receita rel on r.id_receita = rel.id_receita
+                                        where rel.ingrediente in (select ingrediente from tb_relacionamento_ingrediente_receita where id_receita = {id_receita})
+                                        and r.id_receita != {id_receita}
+                                        group by r.id_receita
+                                        order by qtde_iguais desc
+                                        limit 7''').fetchall()
+    ##talvez aqui dá pra colocar só as 10 receitas que mais tem os ingredientes no in
     for result_amostra in result_amostras:
         ingrediente_buscado = result_amostra.ingrediente
                  

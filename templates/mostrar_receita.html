@@ -17,6 +17,16 @@
     align-self: flex-start;
   }
 
+    .flex-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        display: flex;
+        flex-direction: row;
+       
+    }
+
   .scrolling-wrapper {
     overflow-x: scroll;
     overflow-y: hidden;
@@ -38,6 +48,7 @@
   .resize img {
     max-width: 250px;
     max-height: 120px;
+    min-height: 120px;
     width: auto;
     height: auto;
     vertical-align: top;
@@ -45,28 +56,25 @@
 
   .resize {
     clear: both;
-
   }
 </style>
 
 
 
 <div class="flex-container">
-  <div class="flex-item gap-2" style="padding: 10px; background-color:rgb(255, 255, 255)">
-    <div class="flex-row gap-2">
+    <div class="flex-row gap-2" style="padding: 10px; background-color:rgb(255, 255, 255)">
       {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}      
-      <div class="card gap-2" style="padding: 10px; width: 15rem">
+      <div class="card gap-2" style="max-width: 20rem; min-width: 15rem; width: auto;">
         <img class="card-img-top"
           src="https://my-recipe-receitas.com/static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}"
           alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-text row">{{receita.titulo}}</h5>
+        <div class="card-body" style="text-align:center;align-items: center;">
+          <h4 class="card-text row">{{receita.titulo}}</h4>
         </div>
       </div>
-      
       {% endfor %}
     </div>
-  </div>
+  
 </div>
 
 <div class="flex-container">
@@ -137,35 +145,34 @@
 </div>
 
 <div class="flex-container">
-  <div class="flex-item gap-2">
+  <div class="flex-column gap-2" style="padding-left:20%;padding-right:20%">
     <h6>Modo de preparo</h6>
     <hr>
     <div class="flex-row gap-2" style="content:center;margin-bottom: 40px;">
       {{receita.instrucoes | safe}}
-      Esta receita serve <strong>{{receita.porcoes}}</strong> pessoas e leva aproximadamente <strong>{{receita.tempo_preparo}}</strong> minutos de preparo.<br>
+      Esta receita serve {{'%0.0f' |format(receita.porcoes)}} pessoas e leva aproximadamente {{receita.tempo_preparo}} minutos de preparo.<br>
     </div>
   </div>
 </div>
 
 
 <div class="flex-container">
-  <div class="flex-item gap-2">
+  <div class="flex-row" style="display:center;align-self: center;justify-content: center; align-content: center;">
     <a class="btn btn-success" href="{{ url_for('salvar_receita',id_receita=receita.id_receita) }}" role="button">Salvar</a>
-    <a class="btn btn-info" href="#" onClick="copiarTexto()"" role="button">Compartilhar</a>
-    <a class="btn btn btn-danger" href="{{url_for('editar_receita',id_receita=receita.id_receita)}}" role="button">Editar</a>
+    <a class="btn btn-info" href="#" onClick="copiarTexto()" role="button">Compartilhar</a>
+    <a class="btn btn btn-danger" href="{{url_for('editar_receita',id_receita=receita.id_receita)}}" role="button">Criar variação</a>
   </div>
 </div>
 
 
-<h6>Receitas parecidas:</h6>
+
+<h5 style="text-align: center;margin-top:20px">Receitas parecidas:</h5>
 <hr>
-<div class="flex-container gap-2" style="padding: 50px; background-color:rgb(255, 255, 255)">
-<div class="scrolling-wrapper" style="padding:10px; text-align:center">
-  
-    {% for key,value in recomendacoes.iterrows() %}
-    {% for caminho in paths | selectattr('id_receita', 'equalto', value['id_receita']) %}
+<div class="flex-container gap-2" style="text-align:center; background-color:rgb(255, 255, 255)">
+  {% for key,value in recomendacoes.iterrows() %}
+  {% for caminho in paths | selectattr('id_receita', 'equalto', value['id_receita']) %}
        
-    <div class="resize img card gap-2 flex-item" style=" padding: 10px; min-width: 250px;max-width: max-content;height: 250px;">
+    <div class="resize img card gap-2 flex-item" style="min-width:250px; padding:10px; max-width: max-content;height: 250px;">
       <a href="{{ url_for('mostrar_receita',id_receita=value['id_receita']) }}">
         <img src="https://my-recipe-receitas.com/static/uploads/recipes/{{value['id_receita']}}/{{caminho.path_imagem}}"
         alt="Card">
@@ -180,7 +187,7 @@
     
     {%endfor%}
     {%endfor%}
-  </div>
+  
 </div>
 
 <script>
