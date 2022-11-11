@@ -189,8 +189,8 @@
     
     <div class="scrolling-wrapper" style="padding:10px; text-align:center">
       {% for receita in receitas_novas %}
-      {% for caminho in paths %}
-      {% if receita.id_receita == caminho.id_receita %}
+      {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
+      
       <div class="resize card flex-item" style=" min-width: 200px;max-width: max-content; ">
         <div class="flex flex-row">
           <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
@@ -206,7 +206,6 @@
         </div>
       </div>
 
-      {% endif %}
       {% endfor %}
       {% endfor %}
 
@@ -221,8 +220,8 @@
     
     <div class="scrolling-wrapper" style="padding:10px; text-align:center">
       {% for receita_salva in receitas_salvas %}
-      {% for caminho in paths %}
-      {% if receita_salva.id_receita == caminho.id_receita %}
+      {% for caminho in paths | selectattr('id_receita', 'equalto', receita_salva.id_receita) %}
+      
       <div class="resize card flex-item" style=" min-width: 200px;max-width: max-content; ">
         <div class="flex flex-row">
           <a href="{{ url_for('mostrar_receita',id_receita=receita_salva.id_receita) }}">
@@ -236,8 +235,6 @@
           <h5>{{receita_salva.titulo}}</h5>
         </div>
       </div>
-
-      {% endif %}
       {% endfor %}
       {% endfor %}
 
@@ -254,8 +251,8 @@
     
     <div class="scrolling-wrapper" style="padding:10px; text-align:center">
       {% for receita in maiores_avaliacoes %}
-      {% for caminho in paths %}
-      {% if receita.id_receita == caminho.id_receita %}
+      {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
+      
       <div class="resize card flex-item" style=" min-width: 200px;max-width: max-content; ">
         <div class="flex flex-row">
           <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}">
@@ -270,7 +267,7 @@
         </div>
       </div>
 
-      {% endif %}
+      
       {% endfor %}
       {% endfor %}
 

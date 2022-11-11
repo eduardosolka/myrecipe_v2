@@ -73,8 +73,6 @@ def homepage():
             inner join myrecipe_producao.tb_receita tr on tr.id_receita = ta.id_receita
             group by ta.id_receita order by media_nota desc limit 20;''')
     paths = PathImagem.query.all()
-    for path in paths:
-        path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1]
     return render_template('feed_logado.html',
         receitas_novas=sorted(receitas,key=lambda receita :receita.id_receita,reverse=True),
         receitas_salvas=receitas_salvas,paths=paths,maiores_avaliacoes=maiores_avaliacoes)
