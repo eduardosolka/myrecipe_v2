@@ -73,12 +73,12 @@
     <div id="formulario">
       <h4>Busque por ingredientes</h4><br>
       <div class="form-group" id="campo0">
-        <label style="width: 15%;" for="autoSizingInput">Quantidade:
+        <label style="width: auto;" for="autoSizingInput">Quantidade:
           <input type="number" class="form-control" name="quantidade0" id="autoSizingInput" min="0" step="0.01"
             pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>
         </label>
 
-        <label style="width: 20%;" for="autoSizingInput">Unidade de medida:
+        <label style="width: auto;" for="autoSizingInput">Unidade de medida:
           <select class="form-select" name="unidademedida0" id="autoSizingInput" required>
             <option value="1">A gosto</option>
             <option value="2">Colher de sopa</option>
@@ -91,12 +91,12 @@
             <option value="9">Outros</option>
           </select>
         </label>
-        <label style="width: 25%;" for="autoSizingInput">Ingrediente:
+        <label style="width: auto;" for="autoSizingInput">Ingrediente:
           <input type="text" class="form-control" name="ingrediente0" id="autoSizingInput" placeholder="Ingrediente"
             required>
         </label>
 
-        <label style="width: 7%;" for="autoSizingInput">Adicionar
+        <label style="width: auto;" for="autoSizingInput">Adicionar
           <button class="btn btn-light" type="button" onclick="addcampo()" id="add-campo"> + </button>
         </label>
 
@@ -108,10 +108,10 @@
       function addcampo() {
         cont++;
         $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
-                  <label style="width: 15%;" for="autoSizingInput">Quantidade:\
+                  <label style="width: auto;" for="autoSizingInput">Quantidade:\
                       <input type="number" class="form-control" name="quantidade'+ cont + '" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
                   </label>\
-                  <label style="width: 20%;" for="autoSizingInput">Unidade de medida:\
+                  <label style="width: auto;" for="autoSizingInput">Unidade de medida:\
                   <select class="form-select" name="unidademedida'+ cont + '" id="autoSizingInput" required>\
                       <option value="1">A gosto</option>\
                       <option value="2">Colher de sopa</option>\
@@ -124,13 +124,13 @@
                       <option value="9">Outros</option>\
                   </select>\
                   </label>\
-                  <label style="width: 25%;" for="autoSizingInput">Ingrediente:\
+                  <label style="width: auto;" for="autoSizingInput">Ingrediente:\
                       <input type="text" class="form-control" name="ingrediente'+ cont + '" id="autoSizingInput" placeholder="Ingrediente" required>\
                   </label>\
-                  <label style="width: 7%;" for="autoSizingInput">Adicionar\
+                  <label style="width: auto;" for="autoSizingInput">Adicionar\
                   <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont + '"> + </button>\
                   </label>\
-                  <label style="width: 7%;" for="autoSizingInput">Remover\
+                  <label style="width: auto;" for="autoSizingInput">Remover\
                   <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
                   </lable>\
                   </div>');
@@ -147,10 +147,10 @@
         cont++;
         var button_id = $(this).attr("id");
         $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
-                  <label style="width: 15%;" for="autoSizingInput">Quantidade:\
+                  <label style="width: auto;" for="autoSizingInput">Quantidade:\
                       <input type="number" class="form-control" name="quantidade'+ cont + '" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
                   </label>\
-                  <label style="width: 20%;" for="autoSizingInput">Unidade de medida:\
+                  <label style="width: auto;" for="autoSizingInput">Unidade de medida:\
                   <select class="form-select" name="unidademedida'+ cont + '" id="autoSizingInput" required>\
                       <option value="1">A gosto</option>\
                       <option value="2">Colher de sopa</option>\
@@ -163,13 +163,13 @@
                       <option value="9">Outros</option>\
                   </select>\
                   </label>\
-                  <label style="width: 25%;" for="autoSizingInput">Ingrediente:\
+                  <label style="width: auto;" for="autoSizingInput">Ingrediente:\
                       <input type="text" class="form-control" name="ingrediente'+ cont + '" id="autoSizingInput" placeholder="Ingrediente" required>\
                   </label>\
-                  <label style="width: 7%;" for="autoSizingInput">Adicionar\
+                  <label style="width: auto;" for="autoSizingInput">Adicionar\
                   <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont + '"> + </button>\
                   </label>\
-                  <label style="width: 7%;" for="autoSizingInput">Remover\
+                  <label style="width: auto;" for="autoSizingInput">Remover\
                   <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
                   </lable>\
                  </div>');
