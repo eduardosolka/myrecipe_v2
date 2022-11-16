@@ -172,7 +172,7 @@
     <a class="btn btn btn-danger" href="{{url_for('editar_receita',id_receita=receita.id_receita)}}" role="button">Criar variação</a>
     <script>
       function copiarTexto(id) {
-          texto = 'Vi essa receita e lembrei de você!\nAcesse: https://my-recipe-receitas.com/receita_sl/'+ id
+          texto = 'Vi essa receita e lembrei de você!\nAcesse: https://my-recipe-receitas.com/receita_sl/'+id
           navigator.clipboard.writeText(texto)
           alert("Envie o link para seus amigos!\nTexto copiado: " + texto);
       }
