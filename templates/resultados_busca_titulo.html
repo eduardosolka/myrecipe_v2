@@ -66,9 +66,11 @@
   <strong>{{titulo}}</strong> 
   
 </div>
+  {% if receitas == []%}
+  <p class="text-center text-muted" style="margin-top:50px">Infelizmente não encontramos nenhuma receita :( </p>
+  {%else%}  
   {% for receita in receitas %}
-  {% for caminho in paths %}
-  {% if receita.id_receita == caminho.id_receita %}
+  {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
   <div class="flex flex-container resize" style="margin-top: 100px;">
   
     <div class="card">
@@ -86,9 +88,9 @@
 
       
     </div>
-    {% endif %}
     {% endfor %}
-    {%endfor%}
+    {% endfor %}
+    {%endif%}
 
   </div>
 

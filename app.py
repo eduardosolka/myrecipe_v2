@@ -505,7 +505,8 @@ def buscar_ingredientes():
                                         'ingrediente': request.form['ingrediente'+str(i)],
                                         'unidademedida': request.form['unidademedida'+str(i)]}
                     busca.append(ingredientes_busca.copy())
-        receitas = Receita.query.all()        
+        receitas = Receita.query.all()
+              
 
         for ingrediente in busca:                
             for receita in receitas:
@@ -553,7 +554,7 @@ def buscar_titulo():
     if request.method == 'POST':
         titulo = request.form['titulo']
         receitas = db.session.execute(f'''SELECT * FROM myrecipe_producao.tb_receita
-                                        where upper(titulo) like upper('%{titulo}%') limit 20;''')
+                                        where upper(titulo) like upper('%{titulo}%') limit 20;''').fetchall()
         paths = PathImagem.query.all()
         return render_template('resultados_busca_titulo.html',receitas=receitas,paths=paths,titulo=titulo)
 

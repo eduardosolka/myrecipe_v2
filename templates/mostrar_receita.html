@@ -159,7 +159,7 @@
     <h6>Modo de preparo</h6>
     <hr>
     <div class="flex-row gap-2" style="content:center;margin-bottom: 40px;">
-      {{receita.instrucoes | safe}}
+      {{receita.instrucoes | safe}}<br>
       Esta receita serve {{'%0.0f' |format(receita.porcoes)}} pessoas e leva aproximadamente {{receita.tempo_preparo}} minutos de preparo.<br>
     </div>
   </div>
