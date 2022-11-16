@@ -230,7 +230,9 @@ def salvar_receita(id_receita):
         medidas = Medidas.query.all()
         paths = PathImagem.query.all()
         recomendacoes = recomendacao(id_receita)
+        flash("Receita Salva!")
         return redirect(url_for('mostrar_receita',id_receita=id_receita))
+    flash("Você já tem essa receita salva")
     return redirect(url_for('mostrar_receita',id_receita=id_receita)) 
     
     

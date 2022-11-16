@@ -57,18 +57,15 @@
             method="post">
             <div class="flex-row gap-2">
 
-                <label style="width: 60%;" for="autoSizingInput">Titulo:
+                <label style="min-width: auto; width: 60%;" for="autoSizingInput">Titulo:
                     <input type="text" class="form-control" name="titulo" id="autoSizingInput" placeholder="Meu titulo"
                         required>
                 </label>
 
-                <label style="width: 40%;" for="autoSizingInput">Foto:
+                <label style="min-width: auto; width: 40%;" for="autoSizingInput">Foto:
                     <input type="file" accept=".jpg,.png,.jpeg,.jfif" class="form-control" name="foto"
                         id="autoSizingInput" required>
                 </label>
-
-
-
 
             </div>
             
@@ -96,19 +93,20 @@
                 
 
             </div>
-            <div class="flex-row gap-2">
+            <div class="flex-column gap-2">
+                <div class="flex-row gap-2">
                 <label style="width: 30%;" for="autoSizingInput">Serve quantas pessoas:
                     <input type="number" class="form-control" name="porcoes" id="autoSizingInput"
                         placeholder="5 pessoas" required>
                 </label>
 
-                <label style="width: 30%;" for="autoSizingInput">Tempo de Preparo:
+                <label  style="width: 30%;" for="autoSizingInput">Tempo de Preparo:
                     <input type="number" class="form-control" name="tempo" id="autoSizingInput" placeholder="45 minutos"
-                        required>
+                 required>
                 </label>
 
                 <label style="width: 40%;" for="autoSizingSelect">Tipo receita:
-                    <select class="form-select" name="tiporefeicao" id="autoSizingSelect" required>
+                    <select onmouseover="Tip('Uma sugestão para melhor preparo')" onmouseout="UnTip()" class="form-select" name="tiporefeicao" id="autoSizingSelect" required>
                         <option value="1">Café da manhã</option>
                         <option value="2">Almoço</option>
                         <option value="3">Café da tarde</option>
@@ -119,16 +117,31 @@
                     </select>
                 </label>
             </div>
+            </div>
 
             
                 <div id="formulario">
                     <div class="form-group" id="campo0"> 
-                       
                         
+                        <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#ajuda" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Ajuda
+                        </a>
+                        <div class="flex-row collapse gap-3" id="ajuda">
+                        <strong>Quantidade:</strong>
+                        <p>para 1/4 utilize 0,25</p>
+                        <p>para 1/2 utilize 0,5</p>
+                        <p>para 3/4 utilize 0,75</p>
+                        <p>A gosto, utilize 1</p>
+                        </div>
+                        <div class="flex-row collapse gap-3" id="ajuda">
+                            <strong>Unidade Medida:</strong>
+                            <p>caso não encontre sua unidade de medida coloque 'Outros'</p>
+                            
+                            </div>
                         <div class="flex-row gap-2 ">
-
+                            
                             <label style="width: 20%;" for="autoSizingInput">Quantidade:
-                                <input type="number" class="form-control" name="quantidade0" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>
+                                <input type="number" class="form-control" name="quantidade0" id="autoSizingInput" min="0.01" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>
                             </label>
                             
                             <label style="width: 30%;" for="autoSizingInput">Unidade de medida:

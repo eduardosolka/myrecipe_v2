@@ -62,7 +62,17 @@
 
 
 <div class="flex-container">
+  
     <div class="flex-row gap-2" style="padding: 10px; background-color:rgb(255, 255, 255)">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul id="messages" class="list-unstyled">
+      {% for message in messages %}
+        <li class="alert alert-success">{{ message }}</li>
+      {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
       {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}      
       <div class="card gap-2" style="max-width: 20rem; min-width: 15rem; width: auto;">
         <img class="card-img-top"
