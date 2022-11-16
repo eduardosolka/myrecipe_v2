@@ -564,10 +564,10 @@ def receita_sl(id_receita):
     receitas = Receita.query.all()
     medidas = Medidas.query.all()
     paths = PathImagem.query.all()
-    for path in paths:
-        path.path_imagem = (path.path_imagem.replace("/","#").split("#",-1))[-1] 
-    
-    return render_template('mostra_receita_sem_login.html',receita=receita,paths=paths,ingredientes=ingredientes,medidas=medidas,receitas=receitas)
+    if 'AnonymousUserMixin' in str(current_user):
+        return render_template('receita_compartilhada_deslogado.html',receita=receita,paths=paths,ingredientes=ingredientes,medidas=medidas,receitas=receitas)
+    else:
+        return render_template('receita_compartilhada_logado.html',receita=receita,paths=paths,ingredientes=ingredientes,medidas=medidas,receitas=receitas)
 
 
 app.run(debug=True)

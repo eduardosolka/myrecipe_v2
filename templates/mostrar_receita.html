@@ -165,14 +165,22 @@
   </div>
 </div>
 
-
-<div class="flex-container">
-  <div class="flex-row" style="display:center;align-self: center;justify-content: center; align-content: center;">
+<div class="flex-column" style="align-items:center">
+  <div class="flex flex-row">
     <a class="btn btn-success" href="{{ url_for('salvar_receita',id_receita=receita.id_receita) }}" role="button">Salvar</a>
-    <a class="btn btn-info" href="#" onClick="copiarTexto()" role="button">Compartilhar</a>
+    <a class="btn btn-info" style="color: white;" onclick="copiarTexto('{{receita.id_receita}}')" role="button">Compartilhar</a>
     <a class="btn btn btn-danger" href="{{url_for('editar_receita',id_receita=receita.id_receita)}}" role="button">Criar variação</a>
+    <script>
+      function copiarTexto(id) {
+          texto = 'Vi essa receita e lembrei de você!\nAcesse: https://my-recipe-receitas.com/receita_sl/'+ id
+          navigator.clipboard.writeText(texto)
+          alert("Envie o link para seus amigos!\nTexto copiado: " + texto);
+      }
+    </script>
   </div>
 </div>
+
+
 
 
 
@@ -200,14 +208,7 @@
   
 </div>
 
-<script>
-  function copiarTexto() {
-    var textoCopiado = "teste2";
-    textoCopiado.select();
-    document.execCommand("Copy");
-    alert("Texto Copiado: " + textoCopiado.value);
-  }
-</script>
+
 
 
 

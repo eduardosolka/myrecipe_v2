@@ -66,41 +66,80 @@
 </head>
 
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark"; style="background-color: #c42020;">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <img src="{{ url_for('static', filename='images/myrecipelogobranca.png') }}" alt="" width="80" height="80" class="d-inline-block align-text-left">
-          My Recipe - Receitas Inteligentes
-        </a>
-        
-          <form class="d-flex gap-2">
-            <a class="btn btn-light" style="background-color:#c42020; color: beige;" href="{{ url_for('login') }}" role="button">Login</a>
-            <a class="btn btn-light" style="background-color:#c42020; color: beige;" href="{{ url_for('cadastrar_usuario') }}" role="button">Cadastrar</a>
-          </form>
+<body style="background-color:#fff; height: max-content;width: auto;">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark"; style="background-color: #c42020;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='images/myrecipelogobranca.png') }}" alt="" width="80" height="80" class="d-inline-block align-text-left">
+        My Recipe - Receitas Inteligentes
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="d-flex">
+        <div class="collapse navbar-collapse" id="navbarScroll">
+          <ul class="navbar-nav me-auto my-2 my-lg-1 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ url_for('homepage') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{{ url_for('mostrar_salvas') }}">Receitas salvas</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link active dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Cadastros
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                <li><a class="dropdown-item" href="{{ url_for('cadastrar_receita') }}">Receitas</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown" style="width: 180px">
+              <a class="nav-link active dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Meu usuário
+              </a>
+              <ul class="dropdown-menu"  aria-labelledby="navbarScrollingDropdown">
+                <li><a class="dropdown-item" href="#">Olá, {{ current_user.nome }}</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{ url_for('preferencias') }}">Preferencias</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('minhas_receitas') }}">Minhas Receitas</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('editar_perfil') }}">Editar Perfil</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{ url_for('logout') }}">Sair</a></li>
+              </ul>
+            </li>
+            
+          </ul>
         </div>
       </div>
-    </nav>
-
-
+    </div>
+  </nav>
+<div>
+  <br><br><br><br><br><br>
+</div>
   <div class="flex flex-column" style="margin-top:50px;align-items:center">
     
-
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul id="messages" class="list-unstyled">
+        {% for message in messages %}
+            <li class="alert alert-success">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
 
     <div class="flex-container">
       <div class="flex-item gap-2" style="padding: 10px; background-color:rgb(255, 255, 255)">
         <div class="flex-row gap-2">
-          {% for caminho in paths %}
-          {% if receita.id_receita == caminho.id_receita %}
+          {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
           <div class="card gap-2" style="padding: 10px; width: 15rem">
             <img class="card-img-top"
-              src="static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}"
+              src="https://my-recipe-receitas.com/static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}"
               alt="Card image cap">
             <div class="card-body">
               <h5 class="card-text row">{{receita.titulo}}</h5>
             </div>
           </div>
-          {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -174,12 +213,12 @@
     </div>
     
     <div class="flex-container">
-      <div class="flex-item gap-2">
+      <div class="flex-column gap-2" style="padding-left:20%;padding-right:20%">
         <h6>Modo de preparo</h6>
         <hr>
         <div class="flex-row gap-2" style="content:center;margin-bottom: 40px;">
           {{receita.instrucoes | safe}}
-          Esta receita serve <strong>{{receita.porcoes}}</strong> pessoas e leva aproximadamente <strong>{{receita.tempo_preparo}}</strong> minutos de preparo.<br>
+          Esta receita serve {{'%0.0f' |format(receita.porcoes)}} pessoas e leva aproximadamente {{receita.tempo_preparo}} minutos de preparo.<br>
         </div>
       </div>
     </div>
