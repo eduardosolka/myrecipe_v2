@@ -88,10 +88,18 @@
 
 <div class="flex-container">
   <div class="flex-item gap-2">
-    <a class="btn btn-info" href="#" role="button">Compartilhar</a>
+    <a class="btn btn-info" style="color: white;" onclick="copiarTexto('{{receita.id_receita}}')" role="button">Compartilhar</a>
     <a class="btn btn btn-secondary" href="{{url_for('editar_receita',id_receita=receita.id_receita)}}" role="button">Criar variação</a>
     <a class="btn btn btn-danger" href="{{url_for('deletar_receita',id_receita=receita.id_receita)}}" role="button">Deletar</a>  
   </div>
+  <script>
+    function copiarTexto(id) {
+        texto = 'Vi essa receita e lembrei de você!\nAcesse: https://my-recipe-receitas.com/receita_sl/'+id
+        navigator.clipboard.writeText(texto)
+        document.execCommand('copy',texto)
+        alert("Envie o link para seus amigos!\nTexto copiado: " + texto);
+    }
+  </script>
 </div>
 {% endfor %}
 

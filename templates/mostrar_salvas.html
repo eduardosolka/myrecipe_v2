@@ -52,12 +52,12 @@
 
   }
 </style>
-<div class="flex flex-container resize" style="margin-top: 100px;">
+<div class="flex flex-container resize gap-4" style="margin-top: 100px;">
 {% for receita_salva in receitas_salvas %}
 {% for caminho in paths | selectattr('id_receita', 'equalto', receita_salva.id_receita) %}
 
 
-<div class="col-md-3" style="margin-top:40px">
+
   <div class="card">
     <a href="{{ url_for('mostrar_receita',id_receita=receita_salva.id_receita) }}">
     <img
@@ -231,7 +231,7 @@
       
         </div>
       </div>
-    </div>
+    
   
     
     {% endfor %}
