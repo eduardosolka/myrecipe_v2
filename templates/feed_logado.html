@@ -224,7 +224,7 @@
                 </label>\
                 <div style="margin-top: 0px;">\
                   <label style="width: auto;margin: 10px 0;" for="autoSizingInput">Adicionar\
-                    <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont + '"> + </button>\
+                    <button class="btn btn-light" onclick="addcampo()" type="button" id="add-campo"'+ cont + '"> + </button>\
                   </label>\
                   <label style="width: auto;margin: 10px 0;" for="autoSizingInput">Remover\
                     <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
@@ -239,39 +239,6 @@
     $('form').on('click', '.btn-apagar', function () {
       var button_id = $(this).attr("id");
       $('#campo' + button_id + '').remove();
-    });
-    $('form').on('click', '.btn-add', function () {
-      cont++;
-      var button_id = $(this).attr("id");
-      $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
-                <label style="width: auto;margin: 10px 0;" for="autoSizingInput">Quantidade:\
-                    <input type="number" class="form-control" name="quantidade'+ cont + '" id="autoSizingInput" min="0.01" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
-                </label>\
-                <label style="width: auto;margin: 10px 0;" for="autoSizingInput">Unidade de medida:\
-                <select class="form-select" name="unidademedida'+ cont + '" id="autoSizingInput" required>\
-                    <option value="1">A gosto</option>\
-                    <option value="2">Colher de sopa</option>\
-                    <option value="3">Gramas</option>\
-                    <option value="4">Kg</option>\
-                    <option value="5">Litro(s)</option>\
-                    <option value="6">Ml</option>\
-                    <option value="7">Unidade</option>\
-                    <option value="8">Xícara(s)</option>\
-                    <option value="9">Outros</option>\
-                </select>\
-                </label>\
-                <label style="width: auto;margin: 10px 0;" for="autoSizingInput">Ingrediente:\
-                    <input type="text" class="form-control" name="ingrediente'+ cont + '" id="autoSizingInput" placeholder="Ingrediente" required>\
-                </label>\
-                <div style="margin-top: 0px;">\
-                  <label style="width: auto;margin: 10px 0;" for="autoSizingInput">Adicionar\
-                    <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont + '"> + </button>\
-                  </label>\
-                  <label style="width: auto;margin: 10px 0;" for="autoSizingInput">Remover\
-                    <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
-                  </label>\
-                </div>\
-               </div>');
     });
   </script>
 
