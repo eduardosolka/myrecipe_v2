@@ -27,23 +27,6 @@
        
     }
 
-  .scrolling-wrapper {
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-  }
-
-  .card {
-    display: inline-block;
-  }
-
-  .scrolling-wrapper {
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .scrolling-wrapper {
-    -webkit-overflow-scrolling: touch;
-  }
 
   .resize img {
     max-width: 250px;
@@ -52,11 +35,68 @@
     width: auto;
     height: auto;
     vertical-align: top;
-  }
+  } 
 
-  .resize {
-    clear: both;
-  }
+
+  .form-group {
+  margin: 10px 20px 10px 0;
+  border-radius: 25px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 31%;
+  border: 1px solid black;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: flex-start;
+}
+
+.flex-item:nth-child(1) {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: flex-start;
+}
+
+
+.resize {
+  clear: both;
+  margin: 0 10px;
+  height: 300px;
+  width: 200px;
+  border: 1px solid black;
+  min-width: 200px;
+}
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.card {
+  display: inline-block;
+}
+
+
+.resize img {
+  max-width: 200px;
+  max-height: 300px;
+}
+
+.resize {
+  clear: both;
+  margin: 0 10px;
+  height: 300px;
+  width: 200px;
+  border: 1px solid black;
+  min-width: 200px;
+}
+
 </style>
 
 

@@ -267,8 +267,8 @@
 <div class="flex-container gap-2" style=" background-color:rgb(255, 255, 255)">
   
   <div class="scrolling-wrapper" style="padding:10px; text-align:center; display: flex;">
-	{% for receita in receitas_novas %}
-        {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
+	  {% for receita in receitas_novas %}
+    {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
     
     
     
@@ -285,17 +285,8 @@
         </div>  
       
     </div>
-	{% endfor %}
-        {% endfor %}
-    
-    
-    
-    
-    
-
-    
-    
-
+	  {% endfor %}
+    {% endfor %}
   </div>
 </div>
 </div>
@@ -306,8 +297,8 @@
 <div class="flex-container gap-2" style=" background-color:rgb(255, 255, 255)">
         
   <div class="scrolling-wrapper" style="padding:10px; text-align:center; display: flex;">
-      {% for receita_salva in receitas_salvas %}
-      {% for caminho in paths | selectattr('id_receita', 'equalto', receita_salva.id_receita) %}
+    {% for receita_salva in receitas_salvas %}
+    {% for caminho in paths | selectattr('id_receita', 'equalto', receita_salva.id_receita) %}
 
     <div class="resize card" style="height: 300px;width: 200px;border: 1px solid black;">
       <a href="{{ url_for('mostrar_receita',id_receita=receita_salva.id_receita) }}" style="position: absolute; top:0;left: 0;z-index: 1; height: 300px; width: 200px;">
@@ -332,8 +323,8 @@
 <div class="flex-container gap-2" style=" background-color:rgb(255, 255, 255)">
   
   <div class="scrolling-wrapper" style="padding:10px; text-align:center; display: flex;">
-      {% for receita in maiores_avaliacoes %}
-      {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
+    {% for receita in maiores_avaliacoes %}
+    {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
     
     <div class="resize card" style="height: 300px;width: 200px;border: 1px solid black;">
       <a href="{{ url_for('mostrar_receita',id_receita=receita.id_receita) }}" style="position: absolute; top:0;left: 0;z-index: 1; height: 300px; width: 200px;">
@@ -344,24 +335,13 @@
         <h5 style="white-space: break-spaces;">{{receita.titulo}}</h5>
       </div>
     </div>
- {% endfor %}
- {% endfor %}
+    {% endfor %}
+    {% endfor %}
     
 
   </div>
 </div>
 </div>
-
-
-
-
-
-</div>
-
-
-
-
-
-  
-  </body>
+ 
+</body>
 {% endblock %}
