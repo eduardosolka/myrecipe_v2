@@ -25,12 +25,59 @@
   </head>
 <!--===============================================================================================-->
 </head>
+<style>
+.banner {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.banner video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  width: 100%;
+}
+.banner .content {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+.banner .content h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 5.5em;
+  text-transform: uppercase;
+  color: #ffff;
+}
+.banner .content p {
+  font-size: 1.5em;
+  color: #ffff;
+}
+.banner .content img {
+  width: 40px;
+  height: 40px;
+}
+</style>
+<div class="banner">
+	<video autoplay muted loop>
+		<source src="{{url_for('static', filename='images/teste.mp4')}}" type="video/mp4">
+	</video>
+	
 <body style="height:max-content">
 	
-
+	
 	<div class="limiter">
+		
 		<div class="container-login100">
+			
 			<div class="wrap-login100">
+				
 				{% with messages = get_flashed_messages() %}
 				{% if messages %}
 				<ul id="messages" class="list-unstyled">
@@ -45,7 +92,7 @@
 						Cadastro de usuário 
 					</span>
 					<div class="wrap-input100 validate-input">
-						<span class="focus-input100" data-placeholder="Escolha uma foto de perfil *"></span><br><br>
+						<span class="focus-input100" data-placeholder="Escolha uma foto/avatar para perfil *"></span><br><br>
 						<input required class="input100" type="file" onchange="Filevalidation()" name="foto"  accept="image/png, image/jpeg"  multiple /> 
 					</div>
 
@@ -104,6 +151,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 	
 
 	<script>
