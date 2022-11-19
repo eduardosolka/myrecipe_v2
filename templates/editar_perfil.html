@@ -45,7 +45,10 @@
 <div style="display:flex; flex-direction:row; justify-content:center; margin-top:130px ;">
   
   <div class="circle flex-item" style="display:flex; flex-direction:column;">
+    {% if usuario.foto == 'null' %}
+    {%else%}
     <img style="max-height: 150px; border-radius: 50%;border: 1px solid gray; margin-bottom: 5px;" src="/static/uploads/users/{{current_user.id}}/{{usuario.foto}}" alt="Card">
+    {%endif%}
     <span style="text-align:center">{{usuario.nome}}</span>
   </div>
   

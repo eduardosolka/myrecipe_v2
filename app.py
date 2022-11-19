@@ -24,8 +24,12 @@ def cadastrar_usuario():
             email = request.form['email']
             senha = request.form['password']
             nascimento = request.form['nascimento']
-            foto_nome = request.files['foto'].filename
-            cep = request.form['cep']
+            foto_nome = 'null'
+            if '.' in request.files['foto'].filename:
+                foto_nome = request.files['foto'].filename
+            cep = '00000000'
+            if 'cep' in request.form['cep']:
+                cep = request.form['cep']
             user = Usuario(name, email, senha, nascimento, cep, foto_nome,0,0,0,0)
             db.session.add(user)
             db.session.commit()
@@ -33,10 +37,11 @@ def cadastrar_usuario():
             maior_id = db.session.execute('select max(id) from myrecipe_producao.usuarios')
             for id_novo in maior_id:
                 id_novo = id_novo[0]
-            foto = request.files['foto']  
-            diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/users/"+str(id_novo)
-            os.makedirs(diretorio)       
-            foto.save(os.path.join(diretorio, foto.filename))       
+            if 'foto' in request.files['foto']:
+                foto = request.files['foto']  
+                diretorio = r"/home/ubuntu/myrecipe_v2/static/uploads/users/"+str(id_novo)
+                os.makedirs(diretorio)       
+                foto.save(os.path.join(diretorio, foto.filename))       
             user = Usuario.query.filter_by(email=email).first()
             login_user(user)
             return redirect(url_for('homepage'))
