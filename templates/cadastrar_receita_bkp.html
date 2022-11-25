@@ -33,45 +33,6 @@
         flex: auto;
         align-self: auto;
     }
-
-    @media (max-width: 500px) {
-        .flex-item {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-            width: 90%;
-            margin: auto;
-            flex: inherit !important;
-        }
-
-        .flex-row-selects {
-            flex-wrap: wrap;
-        }
-
-        .flex-row-inputs {
-            flex-direction: column !important;
-        }
-
-        .flex-row-inputs-label {
-            width: 100% !important;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .flex-row-help {
-            border: 1px solid black;
-            padding: 5px;
-            margin: 10px 0px;
-            flex-direction: column !important;
-        }
-
-        .navbar-brand {
-            font-size: 14px;
-        }
-
-        .btn-outline-primary {
-            margin-bottom: 10px !important;
-        }
-    }
 </style>
 
 
@@ -107,12 +68,12 @@
                 </label>
 
             </div>
-
-
+            
+            
             <div class="flex-row gap-4" style="background-color:rgb(255, 255, 255) ;color:rgb(109, 109, 109)">
 
-
-                <div class="flex-row gap-2 flex-row-selects">
+                
+                <div class="flex-row gap-2">
                     <label for="autoSizingCheck1">
                         <input name="vegetariana" type="checkbox" id="autoSizingCheck1">
                         Vegetariana</label>
@@ -129,22 +90,22 @@
                         <input name="saudavel" type="checkbox" id="autoSizingCheck5">
                         Saudável</label>
                 </div>
-
+                
 
             </div>
             <div class="flex-column gap-2">
-                <div class="flex-row gap-2 flex-row-inputs">
-                <label style="width: 30%;" for="autoSizingInput" class="flex-row-inputs-label">Serve quantas pessoas:
+                <div class="flex-row gap-2">
+                <label style="width: 30%;" for="autoSizingInput">Serve quantas pessoas:
                     <input type="number" class="form-control" name="porcoes" id="autoSizingInput"
                         placeholder="5 pessoas" required>
                 </label>
 
-                <label  style="width: 30%;" for="autoSizingInput" class="flex-row-inputs-label">Tempo de Preparo:
+                <label  style="width: 30%;" for="autoSizingInput">Tempo de Preparo:
                     <input type="number" class="form-control" name="tempo" id="autoSizingInput" placeholder="45 minutos"
                  required>
                 </label>
 
-                <label style="width: 40%;" for="autoSizingSelect" class="flex-row-inputs-label">Tipo receita:
+                <label style="width: 40%;" for="autoSizingSelect">Tipo receita:
                     <select onmouseover="Tip('Uma sugestão para melhor preparo')" onmouseout="UnTip()" class="form-select" name="tiporefeicao" id="autoSizingSelect" required>
                         <option value="1">Café da manhã</option>
                         <option value="2">Almoço</option>
@@ -152,38 +113,38 @@
                         <option value="4">Jantar</option>
                         <option value="5">Sobremesa</option>
                         <option value="6">Bebida</option>
-                        <option value="7">Salada</option>
+                        <option value="7">Salada</option>                        
                     </select>
                 </label>
             </div>
             </div>
 
-
+            
                 <div id="formulario">
-                    <div class="form-group" id="campo0">
-
+                    <div class="form-group" id="campo0"> 
+                        
                         <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#ajuda" role="button" aria-expanded="false" aria-controls="collapseExample">
                         Ajuda
                         </a>
-                        <div class="flex-row collapse gap-3 flex-row-help" id="ajuda">
+                        <div class="flex-row collapse gap-3" id="ajuda">
                         <strong>Quantidade:</strong>
                         <p>para 1/4 utilize 0,25</p>
                         <p>para 1/2 utilize 0,5</p>
                         <p>para 3/4 utilize 0,75</p>
                         <p>A gosto, utilize 1</p>
                         </div>
-                        <div class="flex-row collapse gap-3 flex-row-help" id="ajuda">
+                        <div class="flex-row collapse gap-3" id="ajuda">
                             <strong>Unidade Medida:</strong>
                             <p>caso não encontre sua unidade de medida coloque 'Outros'</p>
-
+                            
                             </div>
-                        <div class="flex-row gap-2 flex-row-inputs">
-
-                            <label style="width: 20%;" for="autoSizingInput" class="flex-row-inputs-label">Quantidade:
+                        <div class="flex-row gap-2 ">
+                            
+                            <label style="width: 20%;" for="autoSizingInput">Quantidade:
                                 <input type="number" class="form-control" name="quantidade0" id="autoSizingInput" min="0.01" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>
                             </label>
-
-                            <label style="width: 30%;" for="autoSizingInput" class="flex-row-inputs-label">Unidade de medida:
+                            
+                            <label style="width: 30%;" for="autoSizingInput">Unidade de medida:
                                 <select class="form-select" name="unidademedida0" id="autoSizingInput" required>
                                     <option value="1">A gosto</option>
                                     <option value="2">Colher de sopa</option>
@@ -196,7 +157,7 @@
                                     <option value="9">Outros</option>
                                 </select>
                             </label>
-                            <label style="width: 45%;" for="autoSizingInput" class="flex-row-inputs-label">Ingrediente:
+                            <label style="width: 45%;" for="autoSizingInput">Ingrediente:
                                 <input type="text" class="form-control" name="ingrediente0" id="autoSizingInput" placeholder="Ingrediente" required>
                             </label>
 
@@ -206,9 +167,9 @@
                         </div>
                     </div>
                 </div>
-
-
-
+            
+                
+                
                 <script>
                     var cont = 20;
                     function addcampo(){
@@ -241,11 +202,11 @@
                                 <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
                                 </lable>\
                             </div></div>');
-
+                    
                     };
-
+                    
                     //https://api.jquery.com/click/
-
+                   
                     $('form').on('click', '.btn-apagar', function () {
                         var button_id = $(this).attr("id");
                         $('#campo' + button_id + '').remove();
@@ -284,11 +245,11 @@
                     });
                 </script>
             </body>
-
-
-
+            
+            
+            
             <div class="flex-row gap-2">
-
+            
             <body>
 
                 <label style="width: 100%;">Modo de preparo (obrigatório)
@@ -312,7 +273,7 @@
                             ['color', ['color']],
                             ['para', ['ul', 'ol', 'paragraph']],
                             ['table', ['table']],
-
+                            
                         ]
                     });
                 </script>

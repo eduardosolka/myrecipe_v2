@@ -33,9 +33,17 @@
         flex: auto;
         align-self: auto;
     }
+
+    @media (max-width: 500px) {
+        .preferencias-container {
+            margin: 130px 10px 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
 </style>
 
-<div style="display:flex; flex-direction:column; text-align: center; justify-content:center; padding-left: 30%;padding-right: 30%;margin-top:130px ;">
+<div style="display:flex; flex-direction:column; text-align: center; justify-content:center; padding-left: 30%;padding-right: 30%;margin-top:130px ;" class="preferencias-container">
 
 
 
@@ -47,7 +55,7 @@
             Exemplo: Sou vegetariano e não gostaria de ver receitas com carne animal. Basta cadastrar preferência Vegetariano que o sistema não trará estas receitas para seu usuário.</p>
       </details>
     <br>
-    
+
     <div style="padding-left: 10%; padding-right: 10%;">
         <h5 class="flw-row gap-5" style="color:rgb(83, 83, 83)">Cadastro de preferências</h5><br>
         <div class="flex-item"
@@ -55,7 +63,7 @@
 
             <form class="flex-column gap-2" action="{{url_for('preferencias')}}" enctype="multipart/form-data"
                 method="post">
-                {%if usuario.vegetariano == 1%}                 
+                {%if usuario.vegetariano == 1%}
                 <label for="autoSizingCheck1">
                     <input name="vegetariano" checked type="checkbox" id="autoSizingCheck1" value="on">
                     Vegetariano(a)</label>
@@ -65,7 +73,7 @@
                     Vegetariano(a)</label>
                 {%endif%}
                 {%if usuario.vegano == 1%}
-                               
+
                 <label for="autoSizingCheck2">
                     <input name="vegano" checked type="checkbox" id="autoSizingCheck2">
                     Vegano(a)</label>
@@ -75,7 +83,7 @@
                     Vegano(a)</label>
                 {%endif%}
                 {%if usuario.alerg_gluten == 1%}
-                 
+
                 <label for="autoSizingCheck3">
                     <input name="alerg_gluten" checked type="checkbox" id="autoSizingCheck3">
                     Alergico(a) a glúten</label>
@@ -85,7 +93,7 @@
                     Alergico(a) a glúten</label>
                 {%endif%}
                 {%if usuario.into_lactose == 1%}
-                 
+
                 <label for="autoSizingCheck4">
                     <input name="into_lactose" checked type="checkbox" id="autoSizingCheck4">
                     Intolerante a lactose</label>
@@ -95,17 +103,17 @@
                     Intolerante a lactose</label>
                 {%endif%}
 
-                
+
                     <div>
                         <button type="submit" class="btn btn-primary">Cadastrar</button>
                     </div>
-                    
+
             </form>
-            
+
         </div>
-        
+
     </div>
-    
+
 </div>
 
 

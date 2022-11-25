@@ -203,6 +203,8 @@
     max-width: 1050px;
     width: 100%;
     flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
 ">
 {%for receita in receitas%}
 {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}

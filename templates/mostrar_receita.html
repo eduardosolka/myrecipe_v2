@@ -236,8 +236,8 @@
         <img src="https://my-recipe-receitas.com/static/uploads/recipes/{{value['id_receita']}}/{{caminho.path_imagem}}"
         alt="Card">
       </a>
-        <div class="card-body">
-          <h5 class="card-title">{{value['titulo']}}</h5>
+        <div class="card-body" style="padding:0">
+          <h6 class="card-title">{{value['titulo']}}</h6>
           <p class="card-text"> 
             {{ '%0.2f' |format(value['percentual_total'] * 100 | float)}}% relevante
           </p>
