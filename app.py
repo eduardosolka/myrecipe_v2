@@ -95,7 +95,11 @@ def index():
     contador_receitas = Receita.query.count()
     contador_usuarios = Usuario.query.count()
     contador_avaliacoes = Avaliacoes.query.count()
-    return render_template('home_sem_login.html',cont_receitas=contador_receitas,cont_usuarios=contador_usuarios,cont_avaliacoes=contador_avaliacoes)
+    paths = PathImagem.query.all() 
+    melhores_receitas = db.session.execute('''select avg(ta.nota) as media_nota, count(ta.id_receita) as contagem, ta.id_receita,tr.titulo FROM myrecipe_producao.tb_avaliacoes ta 
+            inner join myrecipe_producao.tb_receita tr on tr.id_receita = ta.id_receita
+            group by ta.id_receita order by media_nota desc limit 10;''').fetchall()
+    return render_template('home_sem_login.html',cont_receitas=contador_receitas,cont_usuarios=contador_usuarios,cont_avaliacoes=contador_avaliacoes,receitas=melhores_receitas,paths=paths)
 
 
 @app.route('/cadastrar_receita', methods=['GET', 'POST'])
