@@ -33,53 +33,6 @@
         flex: auto;
         align-self: auto;
     }
-
-    @media (max-width: 500px) {
-        .flex-item {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-            width: 90%;
-            margin: auto;
-            flex: inherit !important;
-        }
-
-        .flex-row-selects {
-            flex-wrap: wrap;
-        }
-
-        .flex-row-inputs {
-            flex-direction: column !important;
-        }
-
-        .flex-row-inputs-label {
-            width: 100% !important;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .flex-row-help {
-            border: 1px solid black;
-            padding: 5px;
-            margin: 10px 0px;
-            flex-direction: column !important;
-        }
-
-        .navbar-brand {
-            font-size: 14px;
-        }
-
-        .btn-outline-primary {
-            margin-bottom: 10px !important;
-        }
-
-        .add-or-remove {
-            justify-content: space-around;
-            width: 40% !important;
-            display: flex;
-            align-items: center;
-        }
-    }
-
 </style>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -100,8 +53,8 @@
             method="post">
             <div class="flex-row gap-2">
 
-                <label style="width: 60%;" for="autoSizingInput">Titulo:
-                    <input type="text" class="form-control" value="{{receita.titulo}}" name="titulo" id="autoSizingInput" placeholder="Meu titulo"
+                <label style="width: 60%;" for="autoSizingInput">Titulo: 
+                    <input type="text" class="form-control" value="{{receita.titulo}}" name="titulo" id="autoSizingInput" placeholder="Meu titulo" 
                         required>
                 </label>
 
@@ -114,15 +67,15 @@
 
 
             </div>
+            
+            
+            <div class="flex-row gap-4" style="background-color:rgb(255, 255, 255) ;color:rgb(109, 109, 109)">
 
-
-            <div class="flex-row gap-4 flex-row-selects" style="background-color:rgb(255, 255, 255) ;color:rgb(109, 109, 109)">
-
-
+                
                 <div class="flex-row gap-2">
                     {%if receita.vegetariana == True%}
                     <label for="autoSizingCheck1">
-                        <input name="vegetariana" type="checkbox" checked id="autoSizingCheck1" value="on">
+                        <input name="vegetariana" type="checkbox" checked id="autoSizingCheck1" value="on"> 
                         Vegetariana</label>
                     {%else%}
                     <label for="autoSizingCheck1">
@@ -166,21 +119,21 @@
                         Saudável</label>
                     {%endif%}
                 </div>
-
+                
 
             </div>
-            <div class="flex-row gap-2 flex-row-inputs">
-                <label style="width: 30%;" for="autoSizingInput" class="flex-row-inputs-label">Serve quantas pessoas:
+            <div class="flex-row gap-2">
+                <label style="width: 30%;" for="autoSizingInput">Serve quantas pessoas:
                     <input type="integer" class="form-control" value="{{receita.porcoes}}" name="porcoes" id="autoSizingInput" pattern="\d{1-100}"
                         placeholder="5 pessoas" required>
                 </label>
 
-                <label style="width: 30%;" for="autoSizingInput" class="flex-row-inputs-label">Tempo de Preparo:
+                <label style="width: 30%;" for="autoSizingInput">Tempo de Preparo:
                     <input type="number" class="form-control" value="{{receita.tempo_preparo}}"name="tempo" id="autoSizingInput" placeholder="45 minutos" pattern="\d{1-100}"
                         required>
                 </label>
-
-                <label style="width: 40%;" for="autoSizingSelect" class="flex-row-inputs-label">Tipo refeição:
+                
+                <label style="width: 40%;" for="autoSizingSelect">Tipo refeição:
                     <select class="form-select" name="tiporefeicao" id="autoSizingSelect" required>
                         {%if receita.tipo_refeicao == '1'%}
                         <option selected value="1" >Café da manhã</option>
@@ -211,22 +164,22 @@
                 </label>
             </div>
 
-
+            
 
                 <div id="formulario">
-
+                    
                     {%for ingrediente in ingredientes%}
                     <div class="form-group" id="campo{{ingrediente.id_sequencial}}">
+                        
+                       
+                        
+                        <div class="flex-row gap-2 ">
 
-
-
-                        <div class="flex-row gap-2 flex-row-inputs">
-
-                            <label style="width: 20%;" for="autoSizingInput{{ingrediente.id_sequencial}}" class="flex-row-inputs-label">Quantidade:
+                            <label style="width: 20%;" for="autoSizingInput{{ingrediente.id_sequencial}}">Quantidade:
                                 <input type="number" class="form-control" value="{{ingrediente.qtde_ingrediente}}" name="quantidade{{ingrediente.contador}}" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>
                             </label>
-
-                            <label style="width: 30%;" for="autoSizingInput{{ingrediente.id_sequencial}}" class="flex-row-inputs-label">Unidade de medida:
+                            
+                            <label style="width: 30%;" for="autoSizingInput{{ingrediente.id_sequencial}}">Unidade de medida:
                                 <select class="form-select" name="unidademedida{{ingrediente.contador}}" id="autoSizingInput{{ingrediente.id_sequencial}}" required>
                                     {%if ingrediente.id_medida == 1%}
                                     <option value="1" selected>A gosto</option>
@@ -250,12 +203,12 @@
                                     {%endif%}
                                     {%if ingrediente.id_medida == 5%}
                                     <option selected value="5">Litro(s)</option>
-                                    {%else%}
+                                    {%else%}                                
                                     <option value="5">Litro(s)</option>
                                     {%endif%}
                                     {%if ingrediente.id_medida == 6%}
                                     <option selected value="6">Ml</option>
-                                    {%else%}
+                                    {%else%} 
                                     <option value="6">Ml</option>
                                     {%endif%}
                                     {%if ingrediente.id_medida == 7%}
@@ -275,36 +228,36 @@
                                     {%endif%}
                                 </select>
                             </label>
-                            <label style="width: 35%;" for="autoSizingInput{{ingrediente.id_sequencial}}" class="flex-row-inputs-label">Ingrediente:
+                            <label style="width: 35%;" for="autoSizingInput{{ingrediente.id_sequencial}}">Ingrediente:
                                 <input type="text" value="{{ingrediente.ingrediente}}" class="form-control" name="ingrediente{{ingrediente.contador}}" id="autoSizingInput" placeholder="Ingrediente" required>
                             </label>
 
-                            <label style="width: 7%;" for="autoSizingInput" class="add-or-remove">Adicionar
+                            <label style="width: 7%;" for="autoSizingInput">Adicionar
                                 <button class="btn btn-light" type="button" onclick="addcampo()" id="add-campo{{ingrediente.id_sequencial}}"> + </button>
                             </label>
-                            <label style="width: 7%;" for="autoSizingInput" class="add-or-remove">Remover
+                            <label style="width: 7%;" for="autoSizingInput">Remover
                                 <button type="button" id="{{ingrediente.id_sequencial}}" class="btn-apagar btn btn-light"> - </button>
                             </lable>
                         </div>
-
+                        
                     </div>
-                    {%endfor%}
+                    {%endfor%} 
                 </div>
-
-
-
+            
+             
+                
                 <script>
                     var cont = 30;
-
-                    function addcampo(){
+                    
+                    function addcampo(){                     
                         cont++;
                         //https://api.jquery.com/append/
                         $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
-                            <div class="flex-row gap-2 flex-row-inputs">\
-                                <label style="width: 20%;" for="autoSizingInput" class="flex-row-inputs-label">Quantidade:\
+                            <div class="flex-row gap-2 ">\
+                                <label style="width: 20%;" for="autoSizingInput">Quantidade:\
                                     <input type="number" class="form-control" name="quantidade'+ cont +'" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
                                 </label>\
-                                <label style="width: 30%;" for="autoSizingInput" class="flex-row-inputs-label">Unidade de medida:\
+                                <label style="width: 30%;" for="autoSizingInput">Unidade de medida:\
                                 <select class="form-select" name="unidademedida'+ cont +'" id="autoSizingInput" required>\
                                     <option value="1">A gosto</option>\
                                     <option value="2">Colher de sopa</option>\
@@ -317,17 +270,17 @@
                                     <option value="9">Outros</option>\
                                 </select>\
                                 </label>\
-                                <label style="width: 35%;" for="autoSizingInput" class="flex-row-inputs-label">Ingrediente:\
+                                <label style="width: 35%;" for="autoSizingInput">Ingrediente:\
                                     <input type="text" class="form-control" name="ingrediente'+ cont +'" id="autoSizingInput" placeholder="Ingrediente" required>\
                                 </label>\
-                                <label style="width: 7%;" for="autoSizingInput" class="add-or-remove">Adicionar\
+                                <label style="width: 7%;" for="autoSizingInput">Adicionar\
                                 <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont +'"> + </button>\
                                 </label>\
-                                <label style="width: 7%;" for="autoSizingInput" class="add-or-remove">Remover\
+                                <label style="width: 7%;" for="autoSizingInput">Remover\
                                 <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
                                 </lable>\
                             </div></div>');
-
+                    
                     };
 
                     $('form').on('click', '.btn-apagar', function () {
@@ -337,11 +290,11 @@
                     $('form').on('click', '.btn-add', function () {
                         var button_id = $(this).attr("id");
                         $('#formulario').append('<div class="form-group" id="campo' + cont + '">\
-                            <div class="flex-row gap-2 flex-row-inputs">\
-                                <label style="width: 20%;" for="autoSizingInput" class="flex-row-inputs-label">Quantidade:\
+                            <div class="flex-row gap-2 ">\
+                                <label style="width: 20%;" for="autoSizingInput">Quantidade:\
                                     <input type="number" class="form-control" name="quantidade'+ cont +'" id="autoSizingInput" min="0" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00" required>\
                                 </label>\
-                                <label style="width: 30%;" for="autoSizingInput" class="flex-row-inputs-label">Unidade de medida:\
+                                <label style="width: 30%;" for="autoSizingInput">Unidade de medida:\
                                 <select class="form-select" name="unidademedida'+ cont +'" id="autoSizingInput" required>\
                                     <option value="1">A gosto</option>\
                                     <option value="2">Colher de sopa</option>\
@@ -354,25 +307,25 @@
                                     <option value="9">Outros</option>\
                                 </select>\
                                 </label>\
-                                <label style="width: 35%;" for="autoSizingInput" class="flex-row-inputs-label">Ingrediente:\
+                                <label style="width: 35%;" for="autoSizingInput">Ingrediente:\
                                     <input type="text" class="form-control" name="ingrediente'+ cont +'" id="autoSizingInput" placeholder="Ingrediente" required>\
                                 </label>\
-                                <label style="width: 7%;" for="autoSizingInput" class="add-or-remove">Adicionar\
+                                <label style="width: 7%;" for="autoSizingInput">Adicionar\
                                 <button class="btn btn-light btn-add" type="button" id="add-campo"'+ cont +'"> + </button>\
                                 </label>\
-                                <label style="width: 7%;" for="autoSizingInput" class="add-or-remove">Remover\
+                                <label style="width: 7%;" for="autoSizingInput">Remover\
                                 <button type="button" id="' + cont + '" class="btn-apagar btn btn-light"> - </button>\
                                 </lable>\
                             </div></div>');
                     });
                 </script>
-
+                 
             </body>
-
-
-
+            
+            
+            
             <div class="flex-row gap-2">
-
+            
             <body>
 
                 <label style="width: 100%;">Modo de preparo
@@ -396,7 +349,7 @@
                             ['color', ['color']],
                             ['para', ['ul', 'ol', 'paragraph']],
                             ['table', ['table']],
-
+                            
                         ]
                     });
                 </script>

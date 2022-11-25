@@ -24,7 +24,7 @@
         align-content: center;
         display: flex;
         flex-direction: row;
-       
+
     }
 
 
@@ -35,7 +35,7 @@
     width: auto;
     height: auto;
     vertical-align: top;
-  } 
+  }
 
 
   .form-group {
@@ -97,12 +97,24 @@
   min-width: 200px;
 }
 
+.flex-container-scroll {
+  display: flex;
+  overflow: auto;
+}
+
+
+@media (min-width: 1024px) {
+  .flex-container-scroll {
+    justify-content: center;
+  }
+}
+
 </style>
 
 
 
 <div class="flex-container" style="margin-top:130px ;">
-  
+
     <div class="flex-row gap-2" style="padding: 10px; background-color:rgb(255, 255, 255)">
       {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -113,7 +125,7 @@
       </ul>
       {% endif %}
       {% endwith %}
-      {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}      
+      {% for caminho in paths | selectattr('id_receita', 'equalto', receita.id_receita) %}
       <div class="card gap-2" style="max-width: 20rem; min-width: 15rem; width: auto;">
         <img class="card-img-top"
           src="https://my-recipe-receitas.com/static/uploads/recipes/{{receita.id_receita}}/{{caminho.path_imagem}}"
@@ -124,15 +136,15 @@
       </div>
       {% endfor %}
     </div>
-  
+
 </div>
 
 <div class="flex-container">
   <div class="flex-item gap-2">
-    
-  
+
+
     <div class="flex-row gap-2" style="content:center">
-      
+
       <table class="table table-borderless">
         <thead>
           <tr>
@@ -142,9 +154,9 @@
           </tr>
         </thead>
           <tbody>
-            
+
             <div class="flex-row gap-2">
-              
+
               {%if receita.vegetariana or receita.vegana or receita.gluten or receita.lactose or receita.saudavel%}
               <span><strong>Características:</strong></span>
               {% if receita.vegetariana == True%}
@@ -162,18 +174,18 @@
               {% if receita.saudavel == True%}
               <p strong>Saudável<br></p>
               {%endif%}
-              
+
               {%endif%}
             </div>
 
             {% for ingrediente in ingredientes %}
-              
-              <tr>  
-                <td>{{ingrediente.qtde_ingrediente}}</td>            
-                  {% for medida in medidas%} 
+
+              <tr>
+                <td>{{ingrediente.qtde_ingrediente}}</td>
+                  {% for medida in medidas%}
                     {% if ingrediente.id_medida == medida.id_medida%}
-                
-                      {% if ingrediente.qtde_ingrediente>1%}             
+
+                      {% if ingrediente.qtde_ingrediente>1%}
                         <td>{{medida.medida_plural}}</td>
                       {% else %}
                       <td>{{medida.medida_singular}}</td>
@@ -181,15 +193,15 @@
                     {% endif %}
                   {% endfor %}
                 <td>{{ingrediente.ingrediente}}</td>
-              
+
             </tr>
             {% endfor %}
-           
-        
+
+
           </tbody>
       </table>
 
-      
+
     </div>
   </div>
 </div>
@@ -227,10 +239,10 @@
 
 <h5 style="text-align: center;margin-top:20px">Receitas parecidas:</h5>
 <hr>
-<div class="flex-container gap-2" style="text-align:center; background-color:rgb(255, 255, 255)">
+<div class="flex-container-scroll gap-2" style="text-align:center; background-color:rgb(255, 255, 255)">
   {% for key,value in recomendacoes.iterrows() %}
   {% for caminho in paths | selectattr('id_receita', 'equalto', value['id_receita']) %}
-       
+
     <div class="resize img card gap-2 flex-item" style="min-width:250px; padding:10px; max-width: max-content;height: 250px;">
       <a href="{{ url_for('mostrar_receita',id_receita=value['id_receita']) }}">
         <img src="https://my-recipe-receitas.com/static/uploads/recipes/{{value['id_receita']}}/{{caminho.path_imagem}}"
@@ -238,15 +250,15 @@
       </a>
         <div class="card-body" style="padding:0">
           <h6 class="card-title">{{value['titulo']}}</h6>
-          <p class="card-text"> 
+          <p class="card-text">
             {{ '%0.2f' |format(value['percentual_total'] * 100 | float)}}% relevante
           </p>
-        </div> 
+        </div>
     </div>
-    
+
     {%endfor%}
     {%endfor%}
-  
+
 </div>
 
 
